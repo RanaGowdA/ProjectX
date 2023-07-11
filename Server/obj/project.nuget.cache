@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "V9Py9ErZkIGfjAIsOgWyVM0X+fjrpmhg5K23VCjACDJnohRpS/ArWf2Ps2yA4K6itwTxRu0gHSMrhlMNZHpyEw==",
+  "dgSpecHash": "QDrJncZwvbyFpg9y8WF0v+SyScRQhzraO6bYoz94zhd2v1zu8pIduKHsewlaLC4XCWkSvjlc1CSvA1JCGsSVig==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ng937c8\\source\\repos\\CustomerRelationshipManagement\\Server\\CustomerRelationshipManagement.Server.csproj",
+  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Server\\CustomerRelationshipManagement.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ng937c8\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.19\\microsoft.aspnetcore.authentication.jwtbearer.6.0.19.nupkg.sha512",
