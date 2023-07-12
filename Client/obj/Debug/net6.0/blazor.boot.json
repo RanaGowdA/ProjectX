@@ -213,15 +213,15 @@
       "mscorlib.dll": "sha256-R1JlsouwIAVx0f4j8Ku8nSgx9UWnoKc26EJSnZko6MY=",
       "netstandard.dll": "sha256-8Ej3VOdrj8ijDcTS0\/1AEMpisaFDe3Nmj0Fbq5sfZEk=",
       "System.Private.CoreLib.dll": "sha256-tqFypIfntE2p16olQ2cI4rklqWNJqsPJvAoPSChg0H0=",
-      "CustomerRelationshipManagement.Shared.dll": "sha256-eNZJboEi9mx6lu9S+uiVXA5qNhxgNPai\/8zd9pxTmLQ=",
-      "CustomerRelationshipManagement.Client.dll": "sha256-avKSeVcFAURJFCiDcdZqbYfanqCiKLsmoxqY5XL7PbE="
+      "CustomerRelationshipManagement.Shared.dll": "sha256-K6X5iegptXNIbXj5dBEWkzZtMM3tAr95e9UUmVf7PWc=",
+      "CustomerRelationshipManagement.Client.dll": "sha256-HKvNHjWCG2I3koVzUDZGxyApTIq5gJqdvb3BgnJjSfw="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "CustomerRelationshipManagement.Shared.pdb": "sha256-Kge0Fu2UePykrF4sSMtKDrf7b+lpUNxdFv965j3ODR4=",
-      "CustomerRelationshipManagement.Client.pdb": "sha256-jkQTHQ26OfmirnqsU7wOdqkWZrsUL8LYwN1B2I0uUi8="
+      "CustomerRelationshipManagement.Shared.pdb": "sha256-MDZrp5X+O9\/C92MWXaiaUaYVP1mBIiCSdRfE9mGSK5w=",
+      "CustomerRelationshipManagement.Client.pdb": "sha256-u+Ycb3neObHPWZn+rZJGnUYStYsdMu3cxvDZoCEow4U="
     },
     "runtime": {
       "dotnet.6.0.18.fsgwq42hzu.js": "sha256-Iww31ANFa3KZuR4RkhiSYt3FJ7PKpMdeFNq3l3Td1h8=",

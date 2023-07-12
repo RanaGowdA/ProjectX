@@ -1,6 +1,7 @@
 using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ services.AddDbContextPool<AdminDbContext>(options =>
 services.AddScoped<AdminDbContext>();
 
 services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AdminDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -81,7 +83,6 @@ services.AddAuthorization();
 
 
 #region Repository
-
 
 
 #endregion

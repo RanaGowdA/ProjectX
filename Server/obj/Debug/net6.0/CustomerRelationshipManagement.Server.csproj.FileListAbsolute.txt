@@ -104,3 +104,14 @@ C:\Users\ng937c8\source\repos\CustomerRelationshipManagement\Server\bin\Debug\ne
 C:\Users\ng937c8\source\repos\CustomerRelationshipManagement\Server\bin\Debug\net6.0\CustomerRelationshipManagement.Data.pdb
 C:\Users\ng937c8\source\repos\CustomerRelationshipManagement\Server\bin\Debug\net6.0\Humanizer.dll
 C:\Users\ng937c8\source\repos\CustomerRelationshipManagement\Server\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.csproj.AssemblyReference.cache
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.AssemblyInfoInputs.cache
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.AssemblyInfo.cs
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.csproj.CoreCompileInputs.cache
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.RazorAssemblyInfo.cache
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.RazorAssemblyInfo.cs
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\refint\CustomerRelationshipManagement.Server.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.pdb

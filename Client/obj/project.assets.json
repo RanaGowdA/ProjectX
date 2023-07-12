@@ -3120,8 +3120,6 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
-        "C:\\Users\\ng937c8\\Documents\\work\\source code\\SAML Component\\IAM.DSP.Common.SAML\\IAM.DSP.Common.SAML\\bin\\Release": {},
-        "C:\\Users\\ng937c8\\Documents\\work\\source code\\SAML Component\\SAML for .NET Core Licensed\\Bin": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
