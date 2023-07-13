@@ -28,7 +28,7 @@ namespace CustomerRelationshipManagement.Server.Controllers
         [HttpPost("register")]
         public async Task<bool> Register(RegisterUserDto RegisterUser)
         {
-            var result = await _context.RegisterUserAsync();
+            var result = await _context.RegisterUserAsync(RegisterUser);
             return result;
         }
 

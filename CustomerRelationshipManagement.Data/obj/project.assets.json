@@ -1486,11 +1486,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
+      "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
       "projectName": "CustomerRelationshipManagement.Data",
-      "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
+      "projectPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
       "packagesPath": "C:\\Users\\ng937c8\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\CustomerRelationshipManagement.Data\\obj\\",
+      "outputPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\CustomerRelationshipManagement.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

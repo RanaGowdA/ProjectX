@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qKDVqoAhh955suXUcrfAt1HlptExDfjgEVdQw/XCAZqoOv60IiNYYfpO42o0a/7Sf4TAAOTyQgJyOuWYQG991Q==",
+  "dgSpecHash": "QF0LL/s18QqpbMhtpzbGOt3+jqu4JsbTJUyvbTzpDt1+4c+lbrlGOsAToUwIMj2kcYnjBquAeV2jy+t1vq0IrA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Server\\CustomerRelationshipManagement.Server.csproj",
+  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Server\\CustomerRelationshipManagement.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ng937c8\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
@@ -59,6 +59,7 @@
     "C:\\Users\\ng937c8\\.nuget\\packages\\microsoft.jsinterop.webassembly\\6.0.16\\microsoft.jsinterop.webassembly.6.0.16.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\mudblazor\\6.7.0\\mudblazor.6.7.0.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\mudblazor.thememanager\\1.0.8\\mudblazor.thememanager.1.0.8.nupkg.sha512",
+    "C:\\Users\\ng937c8\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.2\\sqlitepclraw.bundle_e_sqlite3.2.1.2.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\sqlitepclraw.core\\2.1.2\\sqlitepclraw.core.2.1.2.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.2\\sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",

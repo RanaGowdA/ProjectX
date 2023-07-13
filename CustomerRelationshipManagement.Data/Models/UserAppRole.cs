@@ -9,5 +9,6 @@ namespace CustomerRelationshipManagement.Data.Models
 {
     public class UserAppRole :IdentityUser
     {
+
     }
 }

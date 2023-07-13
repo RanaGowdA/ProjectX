@@ -61,7 +61,7 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-EZ6APt6DPb3AlGGNRvlMDGoVL+2A4jsrqx2qugt4v8E=",
+      "hash": "sha256-bMbxr53k\/K1sCZC0gXBW0H7Gw4Fwu69EvM79S3SnqFk=",
       "url": "index.html"
     },
     {
@@ -215,6 +215,10 @@
     {
       "hash": "sha256-MiiO+4+kvkSxKOXt2RCI0neh4ypWrJ+Oel4KQ3XOCoo=",
       "url": "_framework\/MudBlazor.ThemeManager.dll"
+    },
+    {
+      "hash": "sha256-IsZJ91\/OW+fHzNqIgEc7Y072ns8z9dGritiSyvR9Wgc=",
+      "url": "_framework\/Newtonsoft.Json.dll"
     },
     {
       "hash": "sha256-QKXdVPR3+dDapThW25ARyok9JtLTTRTdLoG6LfEQQhg=",
@@ -929,19 +933,19 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-eNZJboEi9mx6lu9S+uiVXA5qNhxgNPai\/8zd9pxTmLQ=",
+      "hash": "sha256-D8hXyV5QtFqNfAROFGQBwnLXYPcO71bkZW7E3dPAYg4=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.dll"
     },
     {
-      "hash": "sha256-Kge0Fu2UePykrF4sSMtKDrf7b+lpUNxdFv965j3ODR4=",
+      "hash": "sha256-h8HMzuP23TE0JdYvUm0pzzR92+ohq\/mjl64gsYcvZl8=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.pdb"
     },
     {
-      "hash": "sha256-avKSeVcFAURJFCiDcdZqbYfanqCiKLsmoxqY5XL7PbE=",
+      "hash": "sha256-FV1wVhojilllyePzCLuSly0xBWqXERzUGraEbAuxa0I=",
       "url": "_framework\/CustomerRelationshipManagement.Client.dll"
     },
     {
-      "hash": "sha256-jkQTHQ26OfmirnqsU7wOdqkWZrsUL8LYwN1B2I0uUi8=",
+      "hash": "sha256-YCaGn1Cou6PKDY5+DDekGAIliCCz0NlXMx3iYdPoN7w=",
       "url": "_framework\/CustomerRelationshipManagement.Client.pdb"
     },
     {
@@ -949,7 +953,7 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-gRDYdCFqPqanolwJwYqXnNeESFB4\/D0dOK8\/Rginxqo=",
+      "hash": "sha256-grKNa4lT4360T3jPFk24d35Ylnrpl5zIwY+vohqS5nw=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -965,5 +969,5 @@
       "url": "_content\/MudBlazor.ThemeManager\/MudBlazorThemeManager.css"
     }
   ],
-  "version": "dySKNycS"
+  "version": "QenPnITO"
 };

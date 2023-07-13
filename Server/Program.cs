@@ -26,8 +26,7 @@ services.AddDbContextPool<AdminDbContext>(options =>
 
 services.AddScoped<AdminDbContext>();
 
-services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false)
-                .AddRoles<IdentityRole>()
+services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false) 
                 .AddEntityFrameworkStores<AdminDbContext>()
                 .AddDefaultTokenProviders();
 

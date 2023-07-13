@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "is9qo5f+XYq39Q2uCofOeakp5ZBNfUVGHFNy7PLw2M08qVJdA0btStnC91WL5pOSLOWwjN13XotaGBj1YzRzRg==",
+  "dgSpecHash": "AtZ4QKfnzHAmuDF+sA6/V6LB6joAoaRUbtOSJ85CHTPu6Os9mZ1cG026w60fSMTKbEb8LN6y4ipQ/i7oOGQN2Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
+  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ng937c8\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.16\\microsoft.aspnetcore.authorization.6.0.16.nupkg.sha512",
@@ -45,6 +45,7 @@
     "C:\\Users\\ng937c8\\.nuget\\packages\\microsoft.jsinterop.webassembly\\6.0.16\\microsoft.jsinterop.webassembly.6.0.16.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\mudblazor\\6.7.0\\mudblazor.6.7.0.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\mudblazor.thememanager\\1.0.8\\mudblazor.thememanager.1.0.8.nupkg.sha512",
+    "C:\\Users\\ng937c8\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.2\\sqlitepclraw.bundle_e_sqlite3.2.1.2.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\sqlitepclraw.core\\2.1.2\\sqlitepclraw.core.2.1.2.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.2\\sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",

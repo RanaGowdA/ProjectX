@@ -1,0 +1,97 @@
+﻿@page "/login"
+
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using CustomerRelationshipManagement.Shared;
+@using System.Text;
+@using System.Text.Json;
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+@inject ISnackbar SnackbarService
+
+<MudContainer Class="d-flex justify-center align-content-center " MaxWidth="MaxWidth.ExtraExtraLarge" Style="height:100vh;min-width:100vw">
+    <MudPaper Class="d-flex align-self-center" Height="50%" Width="50%" Elevation="0">
+        <MudGrid Justify="Justify.Center" Style="height:98%">
+            <MudItem id="loginDetails " Class="loginDetails" xs="12" sm="6">
+                <MudPaper Class="d-flex align-center justify-center mud-width-full mud-theme-primary" Style="height:100%">
+                    <MudImage Src="login_1.svg"></MudImage>
+                </MudPaper>
+            </MudItem>
+            <MudItem id="logincarasole pa-2" xs="12" sm="6">
+                <MudPaper Class="d-flex align-center justify-center mud-width-full pa-3" Style="height:100%;width:100%">
+                    <MudForm Style="height:100%" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                        <MudTextField @bind-Value="Email" T="string" Label="Email" Required="true" RequiredError="Email is required!"
+                                      Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
+                        <MudTextField @bind-Value="Pwd" T="string" Label="Password" HelperText="Choose a strong password" @ref="pwField1"
+                                      InputType="InputType.Password" Required="true"
+                                      RequiredError="Password is required!" />
+                    </MudForm>
+                    @*<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form.Validate())">Login</MudButton>  *@
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Login">Login</MudButton>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+</MudContainer>
+@code {
+    bool success;
+    string[] errors = { };
+    string Email = "rana.ae@axiscades.com";
+    string Pwd = "Rana@7020";
+    MudTextField<string> pwField1;
+    MudForm form;
+
+    private async void Login()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            UserLogin();
+        }
+
+
+    }
+
+    private async void UserLogin()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Authentication/login");
+        UserLoginDto dataIdDTO = new();
+        dataIdDTO.EmailId = Email;
+        dataIdDTO.Password = Pwd;
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            var output = await response.Content.ReadFromJsonAsync<ItemResponse>();
+            if (output != null)
+            {
+                ShowColorAlerts("Login Success", Severity.Success);
+                NavManager.NavigateTo("/leadsViewComp");
+            }
+        }
+        else
+        {
+            ShowColorAlerts("Login Failed", Severity.Error);
+        }
+    }
+
+    private void ShowColorAlerts(string TextToDisplay, Severity AlertSeverity)
+    {
+        SnackbarService.Clear();
+        SnackbarService.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+        SnackbarService.Add(TextToDisplay, AlertSeverity);
+    }
+
+}
