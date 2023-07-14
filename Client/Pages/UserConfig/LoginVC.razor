@@ -58,7 +58,7 @@
 
     private async void UserLogin()
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "api/Authentication/login");
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Admin/login");
         UserLoginDto dataIdDTO = new();
         dataIdDTO.EmailId = Email;
         dataIdDTO.Password = Pwd;

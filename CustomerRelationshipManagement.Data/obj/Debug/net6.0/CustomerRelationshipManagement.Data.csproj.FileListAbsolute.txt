@@ -40,3 +40,6 @@ C:\Users\ng937c8\Documents\work\2023\ProjectX\CustomerRelationshipManagement.Dat
 C:\Users\ng937c8\Documents\work\2023\ProjectX\CustomerRelationshipManagement.Data\obj\Debug\net6.0\CustomerRelationshipManagement.Data.pdb
 C:\Users\ng937c8\Documents\work\2023\ProjectX\CustomerRelationshipManagement.Data\obj\Debug\net6.0\CustomerRelationshipManagement.Data.genruntimeconfig.cache
 C:\Users\ng937c8\Documents\work\2023\ProjectX\CustomerRelationshipManagement.Data\obj\Debug\net6.0\ref\CustomerRelationshipManagement.Data.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\CustomerRelationshipManagement.Data\bin\Debug\net6.0\CustomerRelationshipManagement.Shared.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\CustomerRelationshipManagement.Data\bin\Debug\net6.0\CustomerRelationshipManagement.Shared.pdb
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\CustomerRelationshipManagement.Data\obj\Debug\net6.0\CustomerRelationshipManagement.Data.csproj.CopyComplete

@@ -2714,3 +2714,7 @@ C:\Users\ng937c8\Documents\work\2023\ProjectX\Client\obj\Debug\net6.0\CustomerRe
 C:\Users\ng937c8\Documents\work\2023\ProjectX\Client\obj\Debug\net6.0\refint\CustomerRelationshipManagement.Client.dll
 C:\Users\ng937c8\Documents\work\2023\ProjectX\Client\obj\Debug\net6.0\CustomerRelationshipManagement.Client.pdb
 C:\Users\ng937c8\Documents\work\2023\ProjectX\Client\obj\Debug\net6.0\ref\CustomerRelationshipManagement.Client.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Client\bin\Debug\net6.0\wwwroot\_framework\Newtonsoft.Json.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Client\bin\Debug\net6.0\wwwroot\_framework\Newtonsoft.Json.dll.gz
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Client\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Client\obj\Debug\net6.0\build-gz\+E+QLvp9.gz

@@ -15,6 +15,7 @@ namespace CustomerRelationshipManagement.Shared.Dto
         public string Unit { get; set; }
         public string Cell { get; set; }
         public string EmailId { get; set; }
+        public string AXCIANId { get; set; }
 
         public string Password { get; set; }
     }

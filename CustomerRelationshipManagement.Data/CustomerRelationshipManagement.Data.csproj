@@ -25,4 +25,8 @@
     <Folder Include="Models\Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\CustomerRelationshipManagement.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

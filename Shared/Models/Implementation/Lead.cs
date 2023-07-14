@@ -1,5 +1,6 @@
 ﻿
 
+using CustomerRelationshipManagement.Shared.Models;
 using System.Text.Json.Serialization;
 
 namespace CustomerRelationshipManagement.Shared
@@ -39,15 +40,17 @@ namespace CustomerRelationshipManagement.Shared
         public bool IsOpportunity { get; set; }
 
         // IsLeadCreatedFromOpportunity
-        public bool IsLCFO { get; set; } 
+        public bool IsLCFO { get; set; }
         // IsLeadCreatedFromLead
-        public bool IsLCFL { get; set; } 
+        public bool IsLCFL { get; set; }
         // IsLeadCreatedFromProject
         public bool IsLCFP { get; set; }
         public bool IsProject { get; set; }
-        public SalesTypeNature SalesTypeNature { get; set; } 
-        public Opportunity Opportunity { get; set; } 
+        public SalesTypeNature SalesTypeNature { get; set; }
+        public Opportunity Opportunity { get; set; }
         public Project Project { get; set; }
+        public TemplateConfiguration TemplateConfiguration { get; set; }
+
         public string BusinessType { get; set; }
         public string Offering { get; set; }
         public string ServiceLines { get; set; }

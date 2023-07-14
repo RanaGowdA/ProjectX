@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "QF0LL/s18QqpbMhtpzbGOt3+jqu4JsbTJUyvbTzpDt1+4c+lbrlGOsAToUwIMj2kcYnjBquAeV2jy+t1vq0IrA==",
+  "dgSpecHash": "rIaL8RA+Ur72Hfzbs+xmWq4GUsErMdG8XxCOyB6fgDa9Pe/hJDZkDXJ31Th6589SQ6CiJCT4KxQ5E47t0ciumw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Server\\CustomerRelationshipManagement.Server.csproj",
+  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Server\\CustomerRelationshipManagement.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ng937c8\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AtZ4QKfnzHAmuDF+sA6/V6LB6joAoaRUbtOSJ85CHTPu6Os9mZ1cG026w60fSMTKbEb8LN6y4ipQ/i7oOGQN2Q==",
+  "dgSpecHash": "6Pbd6uqHmYTTgazvTYyad+Mxhsf9KuJi2ZY9mn/iDhLLd3wBedmAWKylJ33Z/MZvkNWxHbtzc8pkQcBWJJ/Sgw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
+  "projectFilePath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ng937c8\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ng937c8\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.16\\microsoft.aspnetcore.authorization.6.0.16.nupkg.sha512",

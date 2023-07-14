@@ -1,5 +1,9 @@
+using CRM.Server.Repos.RepoImplementation;
 using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Data.Models;
+using CustomerRelationshipManagement.Server;
+using CustomerRelationshipManagement.Server.Repo.Interfaces;
+using CustomerRelationshipManagement.Server.Repo.RepoImplementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +30,7 @@ services.AddDbContextPool<AdminDbContext>(options =>
 
 services.AddScoped<AdminDbContext>();
 
-services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false) 
+services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false)
                 .AddEntityFrameworkStores<AdminDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -83,7 +87,8 @@ services.AddAuthorization();
 
 #region Repository
 
-
+builder.Services.AddTransient<IAdminAppRepository, AdminAppRepo>();
+builder.Services.AddTransient<ILeadRepository, LeadRepository>();
 #endregion
 
 var app = builder.Build();
