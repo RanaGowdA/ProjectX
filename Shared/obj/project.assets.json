@@ -55,25 +55,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ng937c8\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Rana.Gowd\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
+      "projectUniqueName": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
       "projectName": "CustomerRelationshipManagement.Shared",
-      "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
-      "packagesPath": "C:\\Users\\ng937c8\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\obj\\",
+      "projectPath": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
+      "packagesPath": "C:\\Users\\Rana.Gowd\\.nuget\\packages\\",
+      "outputPath": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\Shared\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ng937c8\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Rana.Gowd\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

@@ -12,7 +12,7 @@ namespace CustomerRelationshipManagement.Server.MapperModule
             var newUser = new AppUser
             {
                 UserName = input.Name.ToPascalCase(),
-                AXCIANId = input.AXCIANId.ToUpper(),
+                UserCode = input.AXCIANId.ToUpper(),
             };
 
             return newUser;

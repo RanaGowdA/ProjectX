@@ -1,4 +1,5 @@
-﻿@page "/login"
+﻿@layout LoginLayout
+@page "/login"
 
 
 <MudThemeProvider />
@@ -9,9 +10,11 @@
 @using CustomerRelationshipManagement.Shared;
 @using System.Text;
 @using System.Text.Json;
+@using CustomerRelationshipManagement.Shared.Dto;
 @inject HttpClient httpClient
 @inject NavigationManager NavManager
 @inject ISnackbar SnackbarService
+@inject IJSRuntime jsr
 
 <MudContainer Class="d-flex justify-center align-content-center " MaxWidth="MaxWidth.ExtraExtraLarge" Style="height:100vh;min-width:100vw">
     <MudPaper Class="d-flex align-self-center" Height="50%" Width="50%" Elevation="0">
@@ -31,7 +34,7 @@
                                       RequiredError="Password is required!" />
                     </MudForm>
                     @*<MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form.Validate())">Login</MudButton>  *@
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@Login">Login</MudButton>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" disabled="@isDisabled" OnClick="@Login">Login</MudButton>
                 </MudPaper>
             </MudItem>
         </MudGrid>
@@ -44,6 +47,7 @@
     string Pwd = "Rana@7020";
     MudTextField<string> pwField1;
     MudForm form;
+    bool isDisabled = false;
 
     private async void Login()
     {
@@ -58,9 +62,10 @@
 
     private async void UserLogin()
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "api/Admin/login");
-        UserLoginDto dataIdDTO = new();
-        dataIdDTO.EmailId = Email;
+        isDisabled = true;
+        var request = new HttpRequestMessage(HttpMethod.Post, "/Account/login");
+        LoginDto dataIdDTO = new();
+        dataIdDTO.Username = Email;
         dataIdDTO.Password = Pwd;
 
         // set request body
@@ -74,17 +79,24 @@
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
-            var output = await response.Content.ReadFromJsonAsync<ItemResponse>();
-            if (output != null)
+            var output = await response.Content.ReadFromJsonAsync<LoginResult>(); 
+            if (output.Success)
             {
-                ShowColorAlerts("Login Success", Severity.Success);
-                NavManager.NavigateTo("/leadsViewComp");
+
+                ShowColorAlerts(output.Message, Severity.Success); 
+                await jsr.InvokeVoidAsync("localStorage.setItem", "user", $"{output.Email};{output.JwtBearer}").ConfigureAwait(false);
+                NavManager.NavigateTo("/Index");
+            }
+            else
+            {
+                ShowColorAlerts(output.Message, Severity.Error);
             }
         }
         else
         {
             ShowColorAlerts("Login Failed", Severity.Error);
         }
+        isDisabled = false;
     }
 
     private void ShowColorAlerts(string TextToDisplay, Severity AlertSeverity)

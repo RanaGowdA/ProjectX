@@ -2,6 +2,7 @@ using CRM.Server.Repos.RepoImplementation;
 using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Data.Models;
 using CustomerRelationshipManagement.Server;
+using CustomerRelationshipManagement.Server.MapperModule;
 using CustomerRelationshipManagement.Server.Repo.Interfaces;
 using CustomerRelationshipManagement.Server.Repo.RepoImplementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,7 +20,9 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 services.AddControllersWithViews();
-services.AddRazorPages();
+services.AddRazorPages(); 
+services.AddMemoryCache();
+services.AddCors();
 
 // Custom Services // 
 
@@ -49,8 +52,8 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ClockSkew = TimeSpan.Zero,
-        ValidateActor = true
-    };
+        ValidateActor = true 
+    }; 
 });
 
 // Cookie Auth
@@ -119,7 +122,14 @@ app.UseAuthorization();
 
 #endregion To Enable Authentication & Authorization Capabilities
 
+
+app.UseCors(policy => policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
 app.MapRazorPages();
+ 
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();

@@ -4,6 +4,7 @@ using CustomerRelationshipManagement.Server.Repo.Interfaces;
 using CustomerRelationshipManagement.Shared.Dto;
 using CustomerRelationshipManagement.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 {
@@ -48,7 +49,7 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 
         public async Task<AppUser> GetAppUserByAxicianIdAsync(string AxcianId)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.AXCIANId == AxcianId);
+            return await _context.Users.FirstOrDefaultAsync(x => x.UserCode == AxcianId);
         }
 
         public async Task<AppUser> GetAppUserByIdAsync(int id)
@@ -69,6 +70,11 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
         public DbSet<AppUser> GetUsersDbSet()
         {
             return _context.Users;
+        }
+
+        public Task<AppUser> ValidateUserAsync(string phoneNumber, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

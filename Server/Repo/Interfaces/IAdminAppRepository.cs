@@ -21,12 +21,7 @@ namespace CustomerRelationshipManagement.Server.Repo.Interfaces
         public Task<bool> DeleteEngagementModel(DataIdDTO dataIdDTO);
         public Task<bool> DeleteTemplateConfigurations(TemplateConfiguration templateConfiguration);
 
-
-        DbSet<AppUser> GetUsersDbSet();
-
-
-        Task<AppUser> GetAppUserByAxicianIdAsync(string AxcianId);
-        Task<AppUser> GetAppUserByIdAsync(int id);
+         
 
     }
 }
