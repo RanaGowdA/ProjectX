@@ -1,8 +1,11 @@
 ﻿using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Data.Models;
 using CustomerRelationshipManagement.Server.Repo.Interfaces;
+using CustomerRelationshipManagement.Shared;
 using CustomerRelationshipManagement.Shared.Dto;
 using CustomerRelationshipManagement.Shared.Models;
+using CustomerRelationshipManagement.Shared.Models.Implementation;
+using CustomerRelationshipManagement.Shared.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.WebRequestMethods;
 
@@ -22,17 +25,47 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             throw new NotImplementedException();
         }
 
+        public async Task<bool> AddProjectAccount(Account ProjectAccount)
+        {
+            ProjectAccount.CreatedOn = DateTime.UtcNow;
+            await _context.Accounts.AddAsync(ProjectAccount);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+
         public Task<bool> AddTemplateConfiguration(TemplateConfiguration templateConfiguration)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteEngagementModel(DataIdDTO dataIdDTO)
+        public Task<bool> DeleteEngagementModel(int EngagementModelId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteTemplateConfigurations(TemplateConfiguration templateConfiguration)
+        public async Task<bool> DeleteProjectAccount(int ProjectAccountId)
+        {
+            var savedProjectAccount = await _context.Accounts.Where(s => s.Id == ProjectAccountId).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Accounts.Remove(savedProjectAccount);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
+        }
+
+        public Task<bool> DeleteTemplateConfigurations(int TemplateConfigurationId)
         {
             throw new NotImplementedException();
         }
@@ -42,9 +75,37 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             throw new NotImplementedException();
         }
 
+        public async Task<bool> EditProjectAccount(Account ProjectAccount)
+        {
+            ProjectAccount.ModifiedOn = DateTime.UtcNow;
+            var savedProjectAccount = await _context.Accounts.Where(s => s.Id == ProjectAccount.Id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Entry(savedProjectAccount).CurrentValues.SetValues(ProjectAccount);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
+        }
+
         public Task<bool> EditTemplateConfigurations(TemplateConfiguration templateConfiguration)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Account>> GetAccounts()
+        {
+            return await _context.Accounts.ToListAsync();
         }
 
         public async Task<AppUser> GetAppUserByAxicianIdAsync(string AxcianId)
@@ -57,22 +118,12 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<EngagementModel>> GetEngagementModels()
+        public Task<List<EngagementModel>> GetEngagementModels()
         {
-            return await _context.EngagementModels.ToListAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<List<TemplateConfiguration>> GetTemplateConfigurations()
-        {
-            return await _context.TemplateConfigurations.ToListAsync();
-        }
-
-        public DbSet<AppUser> GetUsersDbSet()
-        {
-            return _context.Users;
-        }
-
-        public Task<AppUser> ValidateUserAsync(string phoneNumber, string password)
+        public Task<List<TemplateConfiguration>> GetTemplateConfigurations()
         {
             throw new NotImplementedException();
         }

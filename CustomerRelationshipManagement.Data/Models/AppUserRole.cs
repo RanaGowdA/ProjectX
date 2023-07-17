@@ -9,5 +9,8 @@ namespace CustomerRelationshipManagement.Data.Models
 {
     public class AppUserRole : IdentityUserRole<int>
     {
+        public AppRole AppRole { get; set; }
+
+        public AppUser AppUser { get; set; }
     }
 }

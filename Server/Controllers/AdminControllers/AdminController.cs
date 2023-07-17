@@ -54,7 +54,7 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
             var users = await _userManager.Users
               .Where(u => u.IsDeleted == 0)
               .Include(r => r.UserRoles)
-              .ThenInclude(r => r.Role)
+              .ThenInclude(r => r.AppRole)
               .Select(u => new
               {
                   u.Id,
@@ -62,7 +62,7 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
                   Usercode = u.UserCode,
                   u.Name,
                   u.Email,
-                  Role = u.UserRoles.Select(r => r.Role.Name).ToList()
+                  Role = u.UserRoles.Select(r => r.AppRole.Name).ToList()
               })
               .ToListAsync();
 
@@ -81,14 +81,14 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
         {
             var user = await _userManager.Users
               .Include(r => r.UserRoles)
-              .ThenInclude(r => r.Role)
+              .ThenInclude(r => r.AppRole)
               .Select(u => new
               {
                   u.Id,
                   Username = u.UserName,
                   u.Name,
                   u.Email,
-                  Role = u.UserRoles.Select(r => r.Role.Name).ToList()
+                  Role = u.UserRoles.Select(r => r.AppRole.Name).ToList()
               }).SingleOrDefaultAsync(u => u.Username == username.ToLower());
 
             return Ok(user);
@@ -162,7 +162,7 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
             //var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = await _userManager.Users
                 .Include(r => r.UserRoles)
-                .ThenInclude(r => r.Role)
+                .ThenInclude(r => r.AppRole)
                 .SingleOrDefaultAsync(u => u.UserName == updateDto.UserName.ToLower());
 
             user.Name = updateDto.Name;
@@ -170,7 +170,7 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
             user.UserCode = updateDto.UserCode;
 
             //Get the User Roles and then remove them and add the new roles back in
-            var roles = user.UserRoles.Select(r => r.Role.Name).ToList();
+            var roles = user.UserRoles.Select(r => r.AppRole.Name).ToList();
             await _userManager.RemoveFromRolesAsync(user, roles);
             await _userManager.AddToRoleAsync(user, updateDto.Role);
 

@@ -905,8 +905,16 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
+      "hash": "sha256-Iww31ANFa3KZuR4RkhiSYt3FJ7PKpMdeFNq3l3Td1h8=",
+      "url": "_framework\/dotnet.6.0.18.fsgwq42hzu.js"
+    },
+    {
       "hash": "sha256-eZ48TqSDBkRFut2vm6DOJQJPQjvG+LB8ucOA4NLkqg0=",
       "url": "_framework\/dotnet.timezones.blat"
+    },
+    {
+      "hash": "sha256-a72LObjDo13A83kXjiYr4L\/Ge6OltrKCx5e3b4PWANk=",
+      "url": "_framework\/dotnet.wasm"
     },
     {
       "hash": "sha256-Zuq0dWAsBm6\/2lSOsz7+H9PvFaRn61KIXHMMwXDfvyE=",
@@ -925,27 +933,19 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-fTWw0BGaoUh1DUg32nwmSDA2vzA1Lk7qJJsTgyyxcD0=",
+      "hash": "sha256-Tm\/2dObmpZ7N7lcHuRjGmS7ck7G+EbzXuk6TaNx+gBs=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.dll"
     },
     {
-      "hash": "sha256-TYXrhewcZecWTp65LVdioivdQnP5cRc4Pi9owKGhcz0=",
+      "hash": "sha256-ZzcO1wI0QFeBOAqr9yq8YkmL3mS1GuOO3y19kOFddy4=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.pdb"
     },
     {
-      "hash": "sha256-6blc48LUUTv6RkTrcangeHDfXIaLlsUci2tOWlE449c=",
-      "url": "_framework\/dotnet.wasm"
-    },
-    {
-      "hash": "sha256-tiNL057vwa1GAtB2bizyW34jOFF55TgNWEceoFRewCI=",
-      "url": "_framework\/dotnet..sn4pjudhn6.js"
-    },
-    {
-      "hash": "sha256-0C2Pk6h9gb7VhQ8zITg3QCi591Hq1XAZh7uI1fYTKKs=",
+      "hash": "sha256-x8J\/GG1R6t2xl9zOI8vBYlirw\/ePu\/sEgrFDHSYhdD8=",
       "url": "_framework\/CustomerRelationshipManagement.Client.dll"
     },
     {
-      "hash": "sha256-swKPEY50IxbcQJs7MIwOVY7KzDY88xYP2W5gcZWFadk=",
+      "hash": "sha256-Ngh3o\/BTi6SH1GJewD+ZwHpUgkdMS9j3+W2UC7Ana18=",
       "url": "_framework\/CustomerRelationshipManagement.Client.pdb"
     },
     {
@@ -953,7 +953,7 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-h\/EDKR2OV3Sb0\/tWh4HEDkMPjrZAKG094uHbS4cRmwA=",
+      "hash": "sha256-XIBls653SpCGjSORrRewLI4D4Dco2mNSFdfHlyaRbuA=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -969,5 +969,5 @@
       "url": "_content\/MudBlazor.ThemeManager\/MudBlazorThemeManager.css"
     }
   ],
-  "version": "9eNx3U46"
+  "version": "8sE4IBOP"
 };

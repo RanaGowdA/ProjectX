@@ -33,12 +33,12 @@
 
     <Columns>
         <SelectColumn T="Lead" />
-        <PropertyColumn Property="x => x.Organization" Title="Organization" Sortable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Industry" SortBy="@_sortBy" />
+        <PropertyColumn Property="x => x.Account.Organization" Title="Organization" Sortable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Account.Industry" SortBy="@_sortBy" />
         <PropertyColumn Property="x => x.Project.Status" Title="Status" />
         <PropertyColumn Property="x => x.BusinessType" />
         <PropertyColumn Property="x => x.ServiceLines" Title="ServiceLines" />
-        <PropertyColumn Property="x => x.Geo" />
+        <PropertyColumn Property="x => x.Account.Geo" />
         <PropertyColumn Property="x => x.Project.CreatedOn" Title="CreatedOn" />
         <PropertyColumn Property="x => x.ForecastedValue" Title="ForecastedValue" />
         <PropertyColumn Property="x => x.Project.ModifiedOn" Title="ModifiedOn" />
@@ -81,9 +81,9 @@
     private Func<Lead, object> _sortBy => x =>
     {
         if (_sortNameByLength)
-            return x.Name.Length;
+            return x.Account.Name.Length;
         else
-            return x.Name;
+            return x.Account.Name;
     };
 
     // quick filter - filter gobally across multiple columns with the same input
@@ -92,13 +92,13 @@
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;
 
-        if (x.Organization.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        if (x.Account.Organization.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if (x.Geo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        if (x.Account.Geo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if ($"{x.Industry} {x.SalesType} {x.BusinessType}".Contains(_searchString))
+        if ($"{x.Account.Industry} {x.SalesType} {x.BusinessType}".Contains(_searchString))
             return true;
 
         return false;

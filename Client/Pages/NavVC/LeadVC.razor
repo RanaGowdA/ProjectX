@@ -33,12 +33,12 @@
 
     <Columns>
         <SelectColumn T="Lead" />
-        <PropertyColumn Property="x => x.Organization" Title="Organization" Sortable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Industry" SortBy="@_sortBy" />
+        <PropertyColumn Property="x => x.Account.Organization" Title="Organization" Sortable="false" Filterable="false" />
+        <PropertyColumn Property="x => x.Account.Industry" SortBy="@_sortBy" />
         <PropertyColumn Property="x => x.LeadStatus" Title="LeadStatus" />
         <PropertyColumn Property="x => x.BusinessType" />
         <PropertyColumn Property="x => x.ServiceLines" Title="ServiceLines" />
-        <PropertyColumn Property="x => x.Geo" />
+        <PropertyColumn Property="x => x.Account.Geo" />
         <PropertyColumn Property="x => x.CreatedOn" Title="CreatedOn" />
         <PropertyColumn Property="x => x.ForecastedValue" Title="ForecastedValue" />
         <PropertyColumn Property="x => x.ModifiedOn" Title="ModifiedOn" />
@@ -60,11 +60,11 @@
     private string alertMessage;
     private Severity alertSeverity;
     private MudDateRangePicker _picker;
-    private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-1).Date, DateTime.Now.AddDays(5).Date);
-    private IEnumerable<Lead> Elements = new List<Lead>();
     private string _searchString;
     private bool _sortNameByLength;
     private List<string> _events = new();
+    private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-1).Date, DateTime.Now.AddDays(5).Date);
+    private IEnumerable<Lead> Elements = new List<Lead>();
     public Lead CurrentSelectedLead { get; set; }
     public Lead NewLead { get; set; }
     public int currentUserId = 1;
@@ -88,9 +88,9 @@
     private Func<Lead, object> _sortBy => x =>
     {
         if (_sortNameByLength)
-            return x.Name.Length;
+            return x.Account.Name.Length;
         else
-            return x.Name;
+            return x.Account.Name;
     };
     // quick filter - filter gobally across multiple columns with the same input
     private Func<Lead, bool> _quickFilter => x =>
@@ -98,13 +98,13 @@
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;
 
-        if (x.Organization.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        if (x.Account.Organization.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if (x.Geo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        if (x.Account.Geo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if ($"{x.Industry} {x.SalesType} {x.BusinessType}".Contains(_searchString))
+        if ($"{x.Account.Industry} {x.SalesType} {x.BusinessType}".Contains(_searchString))
             return true;
 
         return false;

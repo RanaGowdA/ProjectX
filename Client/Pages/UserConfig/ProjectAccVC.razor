@@ -1,0 +1,93 @@
+﻿@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.Implementation;
+
+<MudDialog>
+    <DialogContent>
+        <MudGrid Class="pa-2">
+            <MudItem xs="12" sm="12">
+                <div class="d-flex flex-grow-1 gap-4 flex-wrap justify-center mud-width-full">
+                    @if (IsNewAccount)
+                    {
+                        <MudPaper Class="mud-theme-primary" Elevation="0" Height="30px" Width="100%">
+                            <MudText Align="Align.Center" Style="vertical-align:central">Account</MudText>
+                        </MudPaper>
+                        <MudTextField @bind-Value="NewAccount.Name" Label="FirstName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.LastName" Label="LastName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.Organization" Label="Organization" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.Title" Label="Designation" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.EmailAddress" Label="EmailAddress" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.Phone" Label="Phone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.MobilePhone" Label="MobilePhone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.Fax" Label="Fax" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.WebSite" Label="Web Site" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudNumericField @bind-Value="NewAccount.NumberOfEmployees" Label="Number of Employees" Min="0" Variant="Variant.Outlined" Margin="Margin.Dense"></MudNumericField>
+                        <MudTextField Class="flex-grow-1" Width="100%" @bind-Value="NewAccount.Address1" Label="Address" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.City" Label="City" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.PostalCode" Label="Pin/Zip" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="NewAccount.Country" Label="Country" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+
+                    }
+                    else
+                    { 
+                        <MudPaper Class="mud-theme-primary" Elevation="0" Height="30px" Width="100%">
+                            <MudText Align="Align.Center" Style="vertical-align:central">Account</MudText>
+                        </MudPaper>
+                        <MudTextField @bind-Value="Account.Name" Label="FirstName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.LastName" Label="LastName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.Organization" Label="Organization" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.Title" Label="Designation" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.EmailAddress" Label="EmailAddress" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.Phone" Label="Phone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.MobilePhone" Label="MobilePhone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.Fax" Label="Fax" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.WebSite" Label="Web Site" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudNumericField @bind-Value="Account.NumberOfEmployees" Label="Number of Employees" Min="0" Variant="Variant.Outlined" Margin="Margin.Dense"></MudNumericField>
+                        <MudTextField Class="flex-grow-1" Width="100%" @bind-Value="Account.Address1" Label="Address" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.City" Label="City" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.PostalCode" Label="Pin/Zip" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        <MudTextField @bind-Value="Account.Country" Label="Country" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    }
+                </div>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    #region Variables
+
+    [Parameter]
+    public AccountDto NewAccount { get; set; }
+
+    [Parameter]
+    public Account Account { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+
+    [Parameter]
+    public bool IsNewAccount { get; set; }
+
+    #endregion Variables
+
+
+
+    #region Events
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+
+
+    #endregion Events
+
+
+
+}

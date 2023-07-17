@@ -23,8 +23,7 @@ namespace CRM.Server.Repos.RepoImplementation
             try
             {
                 if (NewLead.LeadStatus == LeadStatus.Closed_Qualified)
-                {
-                    NewLead.IsOpportunity = true;
+                { 
                     NewLead.Opportunity.CreatedOn = DateTime.Now;
                     NewLead.Opportunity.ModifiedOn = DateTime.Now;
                     NewLead.Opportunity.CreatedById = NewLead.CreatedById;
@@ -48,8 +47,7 @@ namespace CRM.Server.Repos.RepoImplementation
         {
             try
             {
-                NewLead.LeadStatus = LeadStatus.Closed_Qualified;
-                NewLead.IsOpportunity = true;
+                NewLead.LeadStatus = LeadStatus.Closed_Qualified; 
                 NewLead.Opportunity.CreatedOn = DateTime.Now;
                 NewLead.Opportunity.ModifiedOn = DateTime.Now;
                 NewLead.Opportunity.CreatedById = NewLead.CreatedById;
@@ -73,15 +71,12 @@ namespace CRM.Server.Repos.RepoImplementation
             try
             {  // Update Opportunity If Closed Qaulitfied 
                 if (NewLead.Project.Status == ProjectState.Completed)
-                {
-                    NewLead.IsProject = true;
+                { 
                     NewLead.Project.CreatedOn = DateTime.Now;
                     NewLead.Project.CreatedById = NewLead.CreatedById;
                 }
                 NewLead.LeadStatus = LeadStatus.Closed_Qualified;
-                NewLead.Opportunity.Status = OpportunityCurrentState.Won;
-                NewLead.IsOpportunity = true;
-                NewLead.IsProject = true;
+                NewLead.Opportunity.Status = OpportunityCurrentState.Won; 
                 NewLead.Opportunity.CreatedOn = DateTime.Now;
                 NewLead.Opportunity.ModifiedOn = DateTime.Now;
                 NewLead.Opportunity.CreatedById = NewLead.CreatedById;
@@ -129,18 +124,14 @@ namespace CRM.Server.Repos.RepoImplementation
             if (savedLead != null)
             {
                 EditLead.ModifiedOn = DateTime.UtcNow;
-                // Update Opportunity If Closed Qaulitfied  
-                EditLead.IsOpportunity = false;
-                if (EditLead.LeadStatus == LeadStatus.Closed_Qualified && !savedLead.IsOpportunity)
-                {
-                    EditLead.IsOpportunity = true;
+                // Update Opportunity If Closed Qaulitfied   
+                if (EditLead.LeadStatus == LeadStatus.Closed_Qualified )
+                { 
                     EditLead.Opportunity.CreatedOn = DateTime.UtcNow;
                     EditLead.Opportunity.CreatedById = EditLead.CreatedById;
                 }
                 else
-                {
-                    EditLead.IsOpportunity = false;
-                    EditLead.IsProject = false;
+                { 
                 }
 
                 try
@@ -167,8 +158,7 @@ namespace CRM.Server.Repos.RepoImplementation
             {
                 // Update Opportunity If Closed Qaulitfied 
                 if (EditLead.Opportunity.Status == OpportunityCurrentState.Won)
-                {
-                    EditLead.IsProject = true;
+                { 
                     if (EditLead.Project.CreatedOn == DateTime.Parse("0001-01-01 00:00:00"))
                     {
                         EditLead.Project.CreatedOn = DateTime.UtcNow;
@@ -184,8 +174,7 @@ namespace CRM.Server.Repos.RepoImplementation
                     EditLead.Opportunity.Status = EditLead.Opportunity.Status;
                     EditLead.Project.Status = ProjectState.None;
                     EditLead.Project.InpState = InProgressSubState.None;
-                    EditLead.Project.PaymentStatus = PaymentStatus.None;
-                    EditLead.IsProject = false;
+                    EditLead.Project.PaymentStatus = PaymentStatus.None; 
                 }
 
                 try
@@ -216,9 +205,8 @@ namespace CRM.Server.Repos.RepoImplementation
                 savedLead.Project.PaymentStatus = EditLead.Project.PaymentStatus;
                 savedLead.Opportunity.LastEditedById = EditLead.CreatedById;
                 // Update Opportunity If Closed Qaulitfied 
-                if (EditLead.Opportunity.Status == OpportunityCurrentState.Won && savedLead.IsOpportunity)
-                {
-                    savedLead.IsProject = true;
+                if (EditLead.Opportunity.Status == OpportunityCurrentState.Won  )
+                { 
                     if (EditLead.Project.CreatedOn == DateTime.Parse("0001-01-01 00:00:00"))
                     {
                         savedLead.Project.CreatedById = EditLead.CreatedById;
@@ -231,8 +219,7 @@ namespace CRM.Server.Repos.RepoImplementation
                 }
                 else
                 {
-                    savedLead.Project.ModifiedOn = DateTime.UtcNow;
-                    savedLead.IsProject = false;
+                    savedLead.Project.ModifiedOn = DateTime.UtcNow; 
                 }
 
                 try
@@ -275,7 +262,7 @@ namespace CRM.Server.Repos.RepoImplementation
 
         public async Task<List<Lead>> GetAllOpportunities(int UserId)
         {
-            return await _context.Leads.Where(x => x.CreatedById == UserId && x.IsOpportunity).Include(x => x.Opportunity).Include(x => x.Project).ToListAsync();
+            return await _context.Leads.Where(x => x.CreatedById == UserId).Include(x => x.Opportunity).Include(x => x.Project).ToListAsync();
         }
 
         //public async Task<List<Organization>> GetAllOrganizations(int UserId)
@@ -302,7 +289,7 @@ namespace CRM.Server.Repos.RepoImplementation
         public async Task<List<Lead>> GetOpportunitiesByDateRange(SearchFromDateToDateDto sFDTD)
         {
             var result = await _context.Leads.Where(x => x.CreatedById == sFDTD.UserId && x.CreatedOn >= sFDTD.StartDate
-                                                    && x.ModifiedOn <= sFDTD.EndDate && x.IsOpportunity)
+                                                    && x.ModifiedOn <= sFDTD.EndDate )
                                                     .Include(x => x.Opportunity).Include(x => x.Project).ToListAsync();
 
             return result;
@@ -311,7 +298,7 @@ namespace CRM.Server.Repos.RepoImplementation
         public async Task<List<Lead>> GetProjectsByDateRange(SearchFromDateToDateDto sFDTD)
         {
             var result = await _context.Leads.Where(x => x.CreatedById == sFDTD.UserId && x.CreatedOn >= sFDTD.StartDate
-                                                    && x.ModifiedOn <= sFDTD.EndDate && x.IsOpportunity && x.IsProject)
+                                                    && x.ModifiedOn <= sFDTD.EndDate )
                                                     .Include(x => x.Opportunity).Include(x => x.Project).ToListAsync();
 
 

@@ -79,18 +79,19 @@
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
-            var output = await response.Content.ReadFromJsonAsync<LoginResult>(); 
-            if (output.Success)
-            {
+            NavManager.NavigateTo("/Index");
+            //var output = await response.Content.ReadFromJsonAsync<LoginResult>(); 
+            //if (output.Success)
+            //{
 
-                ShowColorAlerts(output.Message, Severity.Success); 
-                await jsr.InvokeVoidAsync("localStorage.setItem", "user", $"{output.Email};{output.JwtBearer}").ConfigureAwait(false);
-                NavManager.NavigateTo("/Index");
-            }
-            else
-            {
-                ShowColorAlerts(output.Message, Severity.Error);
-            }
+            //    ShowColorAlerts(output.Message, Severity.Success); 
+            //    await jsr.InvokeVoidAsync("localStorage.setItem", "user", $"{output.Email};{output.JwtBearer}").ConfigureAwait(false);
+            //    NavManager.NavigateTo("/Index");
+            //}
+            //else
+            //{
+            //    ShowColorAlerts(output.Message, Severity.Error);
+            //}
         }
         else
         {

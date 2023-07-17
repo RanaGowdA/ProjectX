@@ -1,7 +1,313 @@
 ﻿@page "/accVC"
 
-<h3>AccountVC</h3>
+
+@using System.Text;
+@using System.Text.Json;
+@using CustomerRelationshipManagement.Client.Pages.UserConfig;
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.Implementation;
+@inject IDialogService Dialog
+@inject HttpClient httpClient
+@inject ISnackbar SnackbarService
+
+<MudDataGrid Class="pt-3 pa-4" FixedHeader="true" Dense="true" T="Account" MultiSelection="true" ReadOnly="false"
+             Items="@Elements" SortMode="SortMode.Multiple" Filterable="true" QuickFilter="@_quickFilter"
+             Hideable="true" RowClick="@RowClicked" SelectedItemsChanged="@SelectedItemsChanged">
+
+    <ToolBarContent>
+        <MudText Typo="Typo.h4" Color="Color.Primary">Accounts</MudText>
+        <MudSpacer />
+        <MudTextField title="Search" @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+
+        <MudSpacer />
+        <MudDateRangePicker PickerVariant="PickerVariant.Dialog" Label="Date Range" @bind-DateRange="_dateRange" Style="min-width:50px;" />
+        <MudSpacer />
+        <MudFab Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Update" Size="Size.Small" Color="Color.Primary" OnClick="GetAccountsByDefaultDates">Update</MudFab>
+        <MudSpacer />
+        <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewAccount" />
+    </ToolBarContent>
+
+    <Columns>
+        <SelectColumn T="Account" />
+        <PropertyColumn Property="x => x.Industry" SortBy="@_sortBy" />
+        <PropertyColumn Property="x => x.Title" Title="Title" />
+        <PropertyColumn Property="x => x.Name" />
+        <PropertyColumn Property="x => x.Address1" Title="Address1" />
+        <PropertyColumn Property="x => x.City" />
+        <PropertyColumn Property="x => x.Country" Title="Country" />
+        <PropertyColumn Property="x => x.Geo" Title="ForecastedValue" />
+        <PropertyColumn Property="x => x.CreatedOn" Title="ModifiedOn" />
+        <TemplateColumn CellClass="d-flex justify-end">
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Account" />
+    </PagerContent>
+</MudDataGrid>
+
+
 
 @code {
+
+
+    #region Variables
+    private string alertMessage;
+    private Severity alertSeverity;
+    private MudDateRangePicker _picker;
+    private string _searchString;
+    private bool _sortNameByLength;
+    private List<string> _events = new();
+    private bool showCallAlert = false;
+    private Account CurrentSelectedAccount = new Account();
+    private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-1).Date, DateTime.Now.AddDays(5).Date);
+
+    private List<Account> Elements = new List<Account>();
+    private DialogOptions DialogOptionsAccount = new DialogOptions()
+        {
+            MaxWidth = MaxWidth.ExtraLarge,
+            FullWidth = true,
+            CloseButton = true,
+            DisableBackdropClick = true,
+            Position = DialogPosition.TopCenter
+        };
+    #endregion
+
+
+    #region Events
+
+
+
+    // custom sort by name length
+    private Func<Account, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.Name.Length;
+        else
+            return x.Name;
+    };
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<Account, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.Organization.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.Geo.ToString().Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.Industry}".Contains(_searchString))
+            return true;
+
+        return false;
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        Elements = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts");
+    }
+
+    void RowClicked(DataGridRowClickEventArgs<Account> args)
+    {
+        _events.Insert(0, $"Event = RowClick, Index = {args.RowIndex}, Data = {System.Text.Json.JsonSerializer.Serialize(args.Item)}");
+    }
+
+    void SelectedItemsChanged(HashSet<Account> items)
+    {
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            CurrentSelectedAccount = selectedItem;
+        }
+    }
+    private void ShowAlerts(string TextToDisplay, Severity AlertSeverity, Color color)
+    {
+        SnackbarService.Add<MudChip>(new Dictionary<string, object>() {
+            { "Text", TextToDisplay },
+            { "Color", color },
+            { "Severity", AlertSeverity }
+        });
+    }
+
+    private void ShowColorAlerts(string TextToDisplay, Severity AlertSeverity)
+    {
+        SnackbarService.Clear();
+        SnackbarService.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+        SnackbarService.Add(TextToDisplay, AlertSeverity);
+    }
+
+    private void CloseMe(bool value)
+    {
+        showCallAlert = false;
+    }
+    private void OpenDialog(DialogOptions Options, DialogParameters Parameters, string Title)
+    {
+        Dialog.Show<ProjectAccVC>(Title, Parameters, Options);
+    }
+    void CanceledEditingItem(Account item)
+    {
+        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CommittedItemChanges(Account item)
+    {
+        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+    #endregion Events
+
+
+
+    #region Services
+
+    private void GetAccountsByDefaultDates()
+    {
+
+    }
+
+    private async void CreateNewAccount()
+    {
+        var parameters = new DialogParameters();
+        AccountDto accountDto = new AccountDto();
+        accountDto.Address1 = "Filton";
+        accountDto.State = "Bristol";
+        accountDto.WebSite = "Airbus.com";
+        accountDto.Organization = "Airbus";
+        accountDto.Title = "TL";
+        accountDto.Phone = "+9199985107020";
+        accountDto.MobilePhone = "+9199985107020";
+        accountDto.Fax = "+9199985107020";
+        accountDto.NumberOfEmployees = 10000;
+        accountDto.PostalCode = 456789;
+        accountDto.City = "Filton";
+        accountDto.Country = "UK";
+        accountDto.Geo = "EUROPE";
+        accountDto.EmailAddress = "Rana.Gowd@airbus.com";
+        accountDto.Name = "Rana";
+        accountDto.LastName = "AE";
+        accountDto.CreatedById = 1;
+        accountDto.Industry = "Aero";
+        accountDto.ModifiedById = 1;
+
+
+        parameters.Add("NewAccount", accountDto);
+        parameters.Add("IsNewAccount", true);
+
+        var dialog = await Dialog.ShowAsync<ProjectAccVC>("New Account", parameters, DialogOptionsAccount);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AddPAccount");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(accountDto), Encoding.UTF8, "application/json");
+
+            // Add authorization header
+            // request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                Elements = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts");
+                ShowColorAlerts("Account Added", Severity.Success);
+            }
+            else
+            {
+
+                ShowColorAlerts("Account Not Added", Severity.Error);
+            }
+        }
+        else
+        {
+
+            ShowColorAlerts("Account Not Added", Severity.Error);
+        }
+
+
+    }
+
+
+
+
+    /// <summary>
+    /// Edit Existing Lead Deatils And Update
+    /// </summary>
+    /// <returns></returns>
+    private async Task StartedEditingItem()
+    {
+        if (CurrentSelectedAccount != null)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("Account", CurrentSelectedAccount);
+            var dialog = await Dialog.ShowAsync<ProjectAccVC>("Edit Account", parameters, DialogOptionsAccount);
+            var result = await dialog.Result;
+            if (!result.Canceled)
+            {
+                // create request object
+                var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EditPAccount");
+
+                // set request body
+                request.Content = new StringContent(JsonSerializer.Serialize(CurrentSelectedAccount), Encoding.UTF8, "application/json");
+
+                //// add authorization header
+                //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+                // send request
+                var response = await httpClient.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    //ShowAlerts("Lead Updated", Severity.Success, Color.Success);
+                    ShowColorAlerts("Lead Updated", Severity.Success);
+                }
+                else
+                {
+                    //ShowAlerts("Fail To Update", Severity.Error, Color.Error);
+                    ShowColorAlerts("Fail To Update", Severity.Error);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Delete Lead From Database
+    /// </summary>
+    /// <returns></returns>
+    private async Task DeleteItem()
+    {
+        // create request object payload
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/deletePAccount");
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = CurrentSelectedAccount.Id;
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+            ShowColorAlerts("Lead Deleted", Severity.Success);
+        }
+        else
+        {
+            ShowColorAlerts("Lead Failed To Delete", Severity.Error);
+        }
+    }
+
+
+
+
+    #endregion
 
 }
