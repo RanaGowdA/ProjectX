@@ -2,6 +2,8 @@
 
 @using System.Net.Http.Json
 @using CustomerRelationshipManagement.Shared.Models;
+@using System.Text.Json;
+@using System.Text;
 @inject HttpClient httpClient
 
 <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="TemplateConfiguration" Items="@TemplateConfigurations" EditMode="DataGridEditMode.Form"
@@ -10,14 +12,14 @@
 
     <ToolBarContent>
         <MudText Typo="Typo.h4" Color="Color.Primary">TemplateConfigurations</MudText>
-        <MudSpacer /> 
         <MudSpacer />
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled>Add</MudButton>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AddTemplateConfig" Disabled>Add</MudButton>
     </ToolBarContent>
 
     <Columns>
         <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
-        <PropertyColumn Property="x => x.CompanyName" Title="Name" />
+        <PropertyColumn Property="x => x.Organization" Title="Name" />
         <PropertyColumn Property="x => x.Segment" Title="Segment" />
         <PropertyColumn Property="x => x.City" Title="City" />
         <PropertyColumn Property="x => x.Region" Title="Region" />
@@ -57,5 +59,38 @@
     void CommittedItemChanges(TemplateConfiguration item)
     {
         _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+
+    public async void AddTemplateConfig()
+    {
+
+        //// create request object
+        //var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/addEM");
+
+        ////PayLoad
+        //TemplateConfiguration dataIdDTO = new();
+        //dataIdDTO.Id = 1;
+
+        //// set request body
+        //request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        ////// add authorization header
+        ////request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        //// send request
+        //var response = await httpClient.SendAsync(request);
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    var outputLeadsWithOpportunites = new List<Lead>();
+        //    outputLeadsWithOpportunites = await response.Content.ReadFromJsonAsync<List<Lead>>();
+        //    if (outputLeadsWithOpportunites != null)
+        //    {
+        //        return outputLeadsWithOpportunites;
+        //    }
+        //}
+
+        //return new List<Lead>();
+
     }
 }

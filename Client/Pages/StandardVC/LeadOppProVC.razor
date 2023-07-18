@@ -22,7 +22,7 @@
                         @foreach (Account item in Accounts)
                         {
                             var tempAcc = TemplateConfigurations.FirstOrDefault(x => x.Id == @item.TemplateConfigurationId);
-                            <MudSelectItem Value="@item">@item.EmailAddress|@tempAcc.CompanyName|@tempAcc.Segment|@tempAcc.City|@tempAcc.Region</MudSelectItem>
+                            <MudSelectItem Value="@item">@item.EmailAddress|@tempAcc.Organization|@tempAcc.Segment|@tempAcc.City|@tempAcc.Region</MudSelectItem>
                         }
                     </MudSelect>
                 }
@@ -280,6 +280,11 @@
 
 
 
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Submit(){
+
+        LeadItem.AccountId = LeadItem.AccountId;
+        MudDialog.Close(DialogResult.Ok(true));
+
+    } 
     void Cancel() => MudDialog.Cancel();
 }

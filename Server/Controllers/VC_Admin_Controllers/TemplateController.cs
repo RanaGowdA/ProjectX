@@ -32,6 +32,14 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
             return await _adminContext.AddEngagementModelEng(engagementModel);
         }
 
+
+        // POST: Template/addTC
+        [HttpPost("addTC")]
+        public async Task<bool> CreateNewTemplateConfig(TemplateConfiguration Tc)
+        {
+            return await _adminContext.AddTemplateConfiguration(Tc);
+        }
+
         // GET: Template/allEM
         [HttpGet("allEM")]
         public async Task<List<EngagementModel>> GetAllEngagementModelEng()
@@ -51,26 +59,6 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
         [HttpPost("AddPAccount")]
         public async Task<bool> CreateNewAddAccount(Account ProjectAccount)
         {
-            //Account account = new Account();
-            //account.Address = ProjectAccount.Address1;
-            //account.State = ProjectAccount.State;
-            //account.WebSite = ProjectAccount.WebSite;
-            //account.Organization = ProjectAccount.Organization;
-            //account.Title = ProjectAccount.Title;
-            //account.Phone = ProjectAccount.Phone;
-            //account.MobilePhone = ProjectAccount.MobilePhone;
-            //account.Fax = ProjectAccount.Fax;
-            //account.NumberOfEmployees = ProjectAccount.NumberOfEmployees;
-            //account.PostalCode = ProjectAccount.PostalCode;
-            //account.City = ProjectAccount.City;
-            //account.Country = ProjectAccount.Country;
-            //account.Geo = Geo.EUROPE;
-            //account.EmailAddress = ProjectAccount.EmailAddress;
-            //account.Name = ProjectAccount.Name;
-            //account.LastName = ProjectAccount.LastName;
-            //account.CreatedById = ProjectAccount.CreatedById;
-            //account.Industry = ProjectAccount.Industry;
-            //account.ModifiedById = ProjectAccount.ModifiedById;
             return await _adminContext.AddProjectAccount(ProjectAccount);
         }
 

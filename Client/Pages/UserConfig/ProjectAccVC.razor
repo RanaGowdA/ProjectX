@@ -17,7 +17,7 @@
                                ValueChanged="@((string newValue) => TemplateChanged(newValue))">
                         @if (TemplateConfigurations.Count > 0)
                         {
-                            var datalist = TemplateConfigurations.Select(x => x.CompanyName).Distinct().ToList();
+                            var datalist = TemplateConfigurations.Select(x => x.Organization).Distinct().ToList();
                             @foreach (string item in datalist)
                             {
                                 <MudSelectItem Value="@item.ToString()">@item.ToString()</MudSelectItem>
@@ -123,9 +123,9 @@
             _currentSelectedCity = templateConfiguration.City;
             _currentSelectedRegion = templateConfiguration.Region;
             _currentSelectedSegment = templateConfiguration.Segment;
-            _currentSelectedTemplate = templateConfiguration.CompanyName;
-            Segments = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
-            Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+            _currentSelectedTemplate = templateConfiguration.Organization;
+            Segments = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
+            Cities = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
         }
         else
         {
@@ -139,7 +139,7 @@
 
     void Submit()
     {
-        var templateConfiguration = TemplateConfigurations.First(x => x.CompanyName == _currentSelectedTemplate
+        var templateConfiguration = TemplateConfigurations.First(x => x.Organization == _currentSelectedTemplate
                                             && x.Segment == _currentSelectedSegment && x.City == _currentSelectedCity
                                             && x.Region == _currentSelectedRegion);
 
@@ -161,8 +161,8 @@
     private void TemplateChanged(string newValue)
     {
         _currentSelectedTemplate = newValue;
-        Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
-        Segments = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
+        Cities = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+        Segments = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
         _currentSelectedSegment = string.Empty;
         _currentSelectedCity = string.Empty;
         _currentSelectedRegion = string.Empty;
@@ -173,14 +173,14 @@
         _currentSelectedSegment = newValue;
         _currentSelectedCity = string.Empty;
         _currentSelectedRegion = string.Empty;
-        Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+        Cities = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
     }
 
 
     void CityChanged(string newValue)
     {
         _currentSelectedCity = newValue;
-        _currentSelectedRegion = TemplateConfigurations.First(x => x.CompanyName == _currentSelectedTemplate
+        _currentSelectedRegion = TemplateConfigurations.First(x => x.Organization == _currentSelectedTemplate
                                                             && x.Segment == _currentSelectedSegment
                                                             && x.City == _currentSelectedCity).Region;
     }
@@ -190,8 +190,8 @@
         _currentSelectedSegment = string.Empty;
         _currentSelectedCity = string.Empty;
         _currentSelectedRegion = string.Empty;
-        Segments = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
-        Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+        Segments = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
+        Cities = TemplateConfigurations.Where(x => x.Organization == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
     }
 
 

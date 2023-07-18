@@ -121,7 +121,7 @@
         TemplateConfigurations = await httpClient.GetFromJsonAsync<List<TemplateConfiguration>>("api/Template/allTmpConfig");
         if (TemplateConfigurations != null)
         {
-            Configurations = TemplateConfigurations.Select(x => x.CompanyName).Distinct().ToList();
+            Configurations = TemplateConfigurations.Select(x => x.Organization).Distinct().ToList();
         }
     }
 

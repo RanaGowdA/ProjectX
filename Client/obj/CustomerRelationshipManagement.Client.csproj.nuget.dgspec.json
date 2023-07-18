@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj": {}
+    "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj": {
+    "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
+        "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
         "projectName": "CustomerRelationshipManagement.Client",
-        "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
+        "projectPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\CustomerRelationshipManagement.Client.csproj",
         "packagesPath": "C:\\Users\\ng937c8\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Client\\obj\\",
+        "outputPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -34,8 +34,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj": {
-                "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj"
+              "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj": {
+                "projectPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj"
               }
             }
           }
@@ -119,14 +119,14 @@
         }
       }
     },
-    "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj": {
+    "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
         "projectName": "CustomerRelationshipManagement.Shared",
-        "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
+        "projectPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj",
         "packagesPath": "C:\\Users\\ng937c8\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\obj\\",
+        "outputPath": "C:\\Users\\ng937c8\\Documents\\work\\2023\\ProjectX\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

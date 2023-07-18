@@ -1,10 +1,9 @@
-using CRM.Server.Repos.RepoImplementation;
+ 
 using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Data.Models;
 using CustomerRelationshipManagement.Server;
 using CustomerRelationshipManagement.Server.MapperModule;
-using CustomerRelationshipManagement.Server.Repo.Interfaces;
-using CustomerRelationshipManagement.Server.Repo.RepoImplementation;
+using CustomerRelationshipManagement.Server.Repo.Interfaces; 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -90,8 +89,8 @@ services.AddAuthorization();
 
 #region Repository
 
-builder.Services.AddTransient<IAdminAppRepository, AdminAppRepo>();
-builder.Services.AddTransient<ILeadRepository, LeadRepository>();
+//builder.Services.AddTransient<IAdminAppRepository, AdminAppRepo>();
+//builder.Services.AddTransient<ILeadRepository, LeadRepository>();
 #endregion
 
 var app = builder.Build();
