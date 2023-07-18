@@ -14,18 +14,15 @@ namespace CustomerRelationshipManagement.Shared.Models
         public string Segment { get; set; }
         public string City { get; set; }
         public string Region { get; set; }
-        public string Name { get; set; }
-
-        [ForeignKey("AccountId")]
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
+        public string CompanyName { get; set; }
+         
 
         public TemplateConfiguration()
         {
             Segment = string.Empty;
             City = string.Empty;
             Region = string.Empty;
-            Name = string.Empty;
+            CompanyName = string.Empty;
         }
     }
 }

@@ -118,14 +118,14 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<EngagementModel>> GetEngagementModels()
+        public async Task<List<EngagementModel>> GetEngagementModels()
         {
-            throw new NotImplementedException();
+            return await _context.EngagementModels.ToListAsync();
         }
 
-        public Task<List<TemplateConfiguration>> GetTemplateConfigurations()
+        public async Task<List<TemplateConfiguration>> GetTemplateConfigurations()
         {
-            throw new NotImplementedException();
+            return await _context.TemplateConfigurations.ToListAsync();
         }
     }
 }

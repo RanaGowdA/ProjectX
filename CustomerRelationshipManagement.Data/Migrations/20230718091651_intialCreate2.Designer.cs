@@ -3,6 +3,7 @@ using System;
 using CustomerRelationshipManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerRelationshipManagement.Data.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    partial class AdminDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230718091651_intialCreate2")]
+    partial class intialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.19");
@@ -348,6 +350,8 @@ namespace CustomerRelationshipManagement.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TemplateConfigurationId");
+
                     b.ToTable("Accounts");
                 });
 
@@ -582,6 +586,17 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.Navigation("Opportunity");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Implementation.Account", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.TemplateConfiguration", "TemplateConfiguration")
+                        .WithMany()
+                        .HasForeignKey("TemplateConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TemplateConfiguration");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

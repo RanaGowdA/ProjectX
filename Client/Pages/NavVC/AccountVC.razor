@@ -6,11 +6,12 @@
 @using CustomerRelationshipManagement.Client.Pages.UserConfig;
 @using CustomerRelationshipManagement.Shared.Dto;
 @using CustomerRelationshipManagement.Shared.Models.Implementation;
+@using CustomerRelationshipManagement.Shared.Models;
 @inject IDialogService Dialog
 @inject HttpClient httpClient
 @inject ISnackbar SnackbarService
 
-<MudDataGrid Class="pt-3 pa-4" FixedHeader="true" Dense="true" T="Account" MultiSelection="true" ReadOnly="false"
+<MudDataGrid Class="pt-3 pa-4" FixedHeader="true" Dense="true" T="Account" MultiSelection="false" 
              Items="@Elements" SortMode="SortMode.Multiple" Filterable="true" QuickFilter="@_quickFilter"
              Hideable="true" RowClick="@RowClicked" SelectedItemsChanged="@SelectedItemsChanged">
 
@@ -33,7 +34,7 @@
         <PropertyColumn Property="x => x.Industry" SortBy="@_sortBy" />
         <PropertyColumn Property="x => x.Title" Title="Title" />
         <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Address1" Title="Address1" />
+        <PropertyColumn Property="x => x.Address" Title="Address1" />
         <PropertyColumn Property="x => x.City" />
         <PropertyColumn Property="x => x.Country" Title="Country" />
         <PropertyColumn Property="x => x.Geo" Title="ForecastedValue" />
@@ -75,6 +76,11 @@
             DisableBackdropClick = true,
             Position = DialogPosition.TopCenter
         };
+
+    public List<EngagementModel> EngagementModels = new List<EngagementModel>();
+    public List<TemplateConfiguration> TemplateConfigurations = new List<TemplateConfiguration>();
+    public List<String> Configurations = new List<string>();
+
     #endregion
 
 
@@ -111,6 +117,12 @@
     protected override async Task OnInitializedAsync()
     {
         Elements = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts");
+        EngagementModels = await httpClient.GetFromJsonAsync<List<EngagementModel>>("api/Template/allEM");
+        TemplateConfigurations = await httpClient.GetFromJsonAsync<List<TemplateConfiguration>>("api/Template/allTmpConfig");
+        if (TemplateConfigurations != null)
+        {
+            Configurations = TemplateConfigurations.Select(x => x.CompanyName).Distinct().ToList();
+        }
     }
 
     void RowClicked(DataGridRowClickEventArgs<Account> args)
@@ -173,8 +185,8 @@
     private async void CreateNewAccount()
     {
         var parameters = new DialogParameters();
-        AccountDto accountDto = new AccountDto();
-        accountDto.Address1 = "Filton";
+        Account accountDto = new Account();
+        accountDto.Address = "Filton";
         accountDto.State = "Bristol";
         accountDto.WebSite = "Airbus.com";
         accountDto.Organization = "Airbus";
@@ -183,10 +195,10 @@
         accountDto.MobilePhone = "+9199985107020";
         accountDto.Fax = "+9199985107020";
         accountDto.NumberOfEmployees = 10000;
-        accountDto.PostalCode = 456789;
+        accountDto.PostalCode = "";
         accountDto.City = "Filton";
         accountDto.Country = "UK";
-        accountDto.Geo = "EUROPE";
+        accountDto.Geo = CustomerRelationshipManagement.Shared.Geo.EUROPE;
         accountDto.EmailAddress = "Rana.Gowd@airbus.com";
         accountDto.Name = "Rana";
         accountDto.LastName = "AE";
@@ -194,9 +206,8 @@
         accountDto.Industry = "Aero";
         accountDto.ModifiedById = 1;
 
-
-        parameters.Add("NewAccount", accountDto);
-        parameters.Add("IsNewAccount", true);
+        parameters.Add("Account", accountDto);
+        parameters.Add("TemplateConfigurations", TemplateConfigurations);
 
         var dialog = await Dialog.ShowAsync<ProjectAccVC>("New Account", parameters, DialogOptionsAccount);
         var result = await dialog.Result;
@@ -247,6 +258,7 @@
         {
             var parameters = new DialogParameters();
             parameters.Add("Account", CurrentSelectedAccount);
+            parameters.Add("TemplateConfigurations", TemplateConfigurations);
             var dialog = await Dialog.ShowAsync<ProjectAccVC>("Edit Account", parameters, DialogOptionsAccount);
             var result = await dialog.Result;
             if (!result.Canceled)

@@ -42,7 +42,7 @@ namespace CustomerRelationshipManagement.Shared.Models.Interfaces
         public int NumberOfEmployees { get; set; }
 
         [Column(TypeName = "nvarchar(50)")]
-        public string Address1 { get; set; }
+        public string Address { get; set; }
 
         [Column(TypeName = "nvarchar(20)")]
         public string City { get; set; }
@@ -51,7 +51,7 @@ namespace CustomerRelationshipManagement.Shared.Models.Interfaces
         public string State { get; set; }
 
         [Column(TypeName = "nvarchar(10)")]
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
         [Column(TypeName = "nvarchar(25)")]
         public string Country { get; set; }
@@ -69,9 +69,8 @@ namespace CustomerRelationshipManagement.Shared.Models.Interfaces
 
         public List<Lead> Leads { get; set; }
 
-        public List<TemplateConfiguration> TemplateConfigurations { get; set; }
+        public int TemplateConfigurationId { get; set; }
 
-        public List<EngagementModel> EngagementModels { get; set; }
 
     }
 }

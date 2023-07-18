@@ -39,13 +39,7 @@ namespace CustomerRelationshipManagement.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AppUser>()
-                .HasIndex("Email", "UserName");
-              
-            modelBuilder.Entity<TemplateConfiguration>().HasOne(x => x.Account)
-                .WithMany(x => x.TemplateConfigurations).HasForeignKey(x => x.AccountId);
-
-            modelBuilder.Entity<EngagementModel>().HasOne(x => x.Account)
-                .WithMany(x => x.EngagementModels).HasForeignKey(x => x.AccountId);
+                .HasIndex("Email", "UserName"); 
 
             modelBuilder.Entity<Lead>().HasOne(x => x.Account).WithMany(x => x.Leads).HasForeignKey(x => x.LeadId);
             modelBuilder.Entity<Lead>().Property(s => s.IsLCFL).HasDefaultValue(false);

@@ -8,6 +8,7 @@
 @using System.Net.Http.Headers;
 @using CustomerRelationshipManagement.Shared.Dto;
 @using CustomerRelationshipManagement.Shared.Models;
+@using CustomerRelationshipManagement.Shared.Models.Implementation;
 @inject IDialogService Dialog
 @inject HttpClient httpClient
 @inject ISnackbar SnackbarService
@@ -27,7 +28,7 @@
         <MudDateRangePicker PickerVariant="PickerVariant.Dialog" Label="Date Range" @bind-DateRange="_dateRange" Style="min-width:50px;" />
         <MudSpacer />
         <MudFab Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Update" Size="Size.Small" Color="Color.Primary" OnClick="GetLeadsByDefaultDates">Update</MudFab>
-        <MudSpacer /> 
+        <MudSpacer />
         <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewLead" />
     </ToolBarContent>
 
@@ -65,6 +66,7 @@
     private List<string> _events = new();
     private DateRange _dateRange = new DateRange(DateTime.Now.AddDays(-1).Date, DateTime.Now.AddDays(5).Date);
     private IEnumerable<Lead> Elements = new List<Lead>();
+    private List<Account> Accounts = new List<Account>();
     public Lead CurrentSelectedLead { get; set; }
     public Lead NewLead { get; set; }
     public int currentUserId = 1;
@@ -78,7 +80,7 @@
         };
 
     public List<EngagementModel> EngagementModels = new List<EngagementModel>();
-    public List<TemplateConfiguration> TemplateConfigurations = new List<TemplateConfiguration>();
+    public List<TemplateConfiguration> TemplateConfigurations = new List<TemplateConfiguration>(); 
 
 
 
@@ -112,7 +114,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Elements = await GetLeadListByCurrentUserIdWithDates();
+        Accounts = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts");
+        Elements = await GetLeadListByCurrentUserIdWithDates(); 
+        EngagementModels = await httpClient.GetFromJsonAsync<List<EngagementModel>>("api/Template/allEM");
+        TemplateConfigurations = await httpClient.GetFromJsonAsync<List<TemplateConfiguration>>("api/Template/allTmpConfig");
     }
 
     void RowClicked(DataGridRowClickEventArgs<Lead> args)
@@ -251,6 +256,7 @@
         var parameters = new DialogParameters();
         NewLead = new Lead();
         parameters.Add("LeadItem", NewLead);
+        parameters.Add("Accounts", Accounts);
         parameters.Add("TemplateConfigurations", TemplateConfigurations);
         parameters.Add("EngagementModels", EngagementModels);
         parameters.Add("IsLead", true);
@@ -263,8 +269,8 @@
         {
             NewLead.CreatedById = currentUserId;
             NewLead.CreatedOn = DateTime.UtcNow;
-            NewLead.ModifiedOn = DateTime.UtcNow; 
-            NewLead.Opportunity.CreatedById = currentUserId; 
+            NewLead.ModifiedOn = DateTime.UtcNow;
+            NewLead.Opportunity.CreatedById = currentUserId;
             NewLead.Project.CreatedById = currentUserId;
             // create request object
             var request = new HttpRequestMessage(HttpMethod.Post, "api/Lead/createLead");

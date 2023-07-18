@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CustomerRelationshipManagement.Shared.Dto
 {
-    public class AccountDto
+    public class AccountDto 
     {
         [JsonPropertyName("Name")]
         public string Name { get; set; }
@@ -41,7 +41,7 @@ namespace CustomerRelationshipManagement.Shared.Dto
         [JsonPropertyName("State")]
         public string State { get; set; }
         [JsonPropertyName("PostalCode")]
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
         [JsonPropertyName("Country")]
         public string Country { get; set; }
         [JsonPropertyName("Geo")]

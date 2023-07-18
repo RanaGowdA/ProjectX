@@ -21,18 +21,19 @@ namespace CustomerRelationshipManagement.Shared.Models.Implementation
         public string WebSite { get; set; }
         public string Industry { get; set; }
         public int NumberOfEmployees { get; set; }
-        public string Address1 { get; set; }
+        public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
         public string Country { get; set; }
         public Geo Geo { get; set; }
         public DateTime CreatedOn { get; set; }
         public int CreatedById { get; set; }
         public DateTime ModifiedOn { get; set; }
         public int ModifiedById { get; set; }
+         
+
         public List<Lead>? Leads { get; set; }
-        public List<TemplateConfiguration>? TemplateConfigurations { get; set; }
-        public List<EngagementModel>? EngagementModels { get; set; }
+        public int TemplateConfigurationId { get; set; } 
     }
 }

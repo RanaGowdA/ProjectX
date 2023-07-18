@@ -1,54 +1,80 @@
 ﻿@using CustomerRelationshipManagement.Shared.Dto;
 @using CustomerRelationshipManagement.Shared.Models.Implementation;
+@using CustomerRelationshipManagement.Shared.Models;
 
 <MudDialog>
     <DialogContent>
         <MudGrid Class="pa-2">
             <MudItem xs="12" sm="12">
                 <div class="d-flex flex-grow-1 gap-4 flex-wrap justify-center mud-width-full">
-                    @if (IsNewAccount)
-                    {
-                        <MudPaper Class="mud-theme-primary" Elevation="0" Height="30px" Width="100%">
-                            <MudText Align="Align.Center" Style="vertical-align:central">Account</MudText>
-                        </MudPaper>
-                        <MudTextField @bind-Value="NewAccount.Name" Label="FirstName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.LastName" Label="LastName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.Organization" Label="Organization" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.Title" Label="Designation" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.EmailAddress" Label="EmailAddress" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.Phone" Label="Phone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.MobilePhone" Label="MobilePhone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.Fax" Label="Fax" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.WebSite" Label="Web Site" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudNumericField @bind-Value="NewAccount.NumberOfEmployees" Label="Number of Employees" Min="0" Variant="Variant.Outlined" Margin="Margin.Dense"></MudNumericField>
-                        <MudTextField Class="flex-grow-1" Width="100%" @bind-Value="NewAccount.Address1" Label="Address" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.City" Label="City" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.PostalCode" Label="Pin/Zip" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="NewAccount.Country" Label="Country" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
 
-                    }
-                    else
-                    { 
-                        <MudPaper Class="mud-theme-primary" Elevation="0" Height="30px" Width="100%">
-                            <MudText Align="Align.Center" Style="vertical-align:central">Account</MudText>
-                        </MudPaper>
-                        <MudTextField @bind-Value="Account.Name" Label="FirstName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.LastName" Label="LastName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.Organization" Label="Organization" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.Title" Label="Designation" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.EmailAddress" Label="EmailAddress" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.Phone" Label="Phone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.MobilePhone" Label="MobilePhone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.Fax" Label="Fax" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.WebSite" Label="Web Site" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudNumericField @bind-Value="Account.NumberOfEmployees" Label="Number of Employees" Min="0" Variant="Variant.Outlined" Margin="Margin.Dense"></MudNumericField>
-                        <MudTextField Class="flex-grow-1" Width="100%" @bind-Value="Account.Address1" Label="Address" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.City" Label="City" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.State" Label="State" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.PostalCode" Label="Pin/Zip" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                        <MudTextField @bind-Value="Account.Country" Label="Country" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
-                    }
+                    <MudPaper Class="mud-theme-primary" Elevation="0" Height="30px" Width="100%">
+                        <MudText Align="Align.Center" Style="vertical-align:central">Configuration</MudText>
+                    </MudPaper>
+
+                    <MudSelect FullWidth="true" Label="Template/Org" Value="_currentSelectedTemplate"
+                               OpenIcon="@Icons.Material.Filled.SettingsApplications" Style="width:100%" AdornmentColor="Color.Primary"
+                               ValueChanged="@((string newValue) => TemplateChanged(newValue))">
+                        @if (TemplateConfigurations.Count > 0)
+                        {
+                            var datalist = TemplateConfigurations.Select(x => x.CompanyName).Distinct().ToList();
+                            @foreach (string item in datalist)
+                            {
+                                <MudSelectItem Value="@item.ToString()">@item.ToString()</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+
+
+                    <MudSelect FullWidth="true" Label="Segment" Value="_currentSelectedSegment" ValueChanged="@((string newValue) => SegmentChanged(newValue))"
+                               OpenIcon="@Icons.Material.Filled.Segment" Style="width:100%" AdornmentColor="Color.Primary">
+                        @if (TemplateConfigurations.Count > 0)
+                        {
+                            @foreach (string item in Segments)
+                            {
+                                <MudSelectItem Value="@item.ToString()">@item.ToString()</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+
+
+                    <MudSelect FullWidth="true" Label="City" Value="_currentSelectedCity" ValueChanged="@((string newValue) => CityChanged(newValue))"
+                               OpenIcon="@Icons.Material.Filled.LocationCity" Style="width:100%" AdornmentColor="Color.Primary">
+                        @if (TemplateConfigurations.Count > 0)
+                        {
+                            @foreach (string item in Cities)
+                            {
+                                <MudSelectItem Value="@item.ToString()">@item.ToString()</MudSelectItem>
+                            }
+                        }
+                    </MudSelect>
+
+
+
+                    <MudTextField @bind-Value="_currentSelectedRegion" Label="Region" Disabled></MudTextField>
+
+                    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.FormatColorReset" Size="Size.Small" OnClick="ResetFilters" />
+
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="12">
+                <div class="d-flex flex-grow-1 gap-4 flex-wrap justify-center mud-width-full">
+                    <MudPaper Class="mud-theme-primary" Elevation="0" Height="30px" Width="100%">
+                        <MudText Align="Align.Center" Style="vertical-align:central">Account</MudText>
+                    </MudPaper>
+                    <MudTextField @bind-Value="Account.Name" Label="FirstName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.LastName" Label="LastName" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.Organization" Label="Organization" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.Title" Label="Designation" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.EmailAddress" Label="EmailAddress" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.Phone" Label="Phone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.MobilePhone" Label="MobilePhone" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.Fax" Label="Fax" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.WebSite" Label="Web Site" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudNumericField @bind-Value="Account.NumberOfEmployees" Label="Number of Employees" Min="0" Variant="Variant.Outlined" Margin="Margin.Dense"></MudNumericField>
+                    <MudTextField @bind-Value="Account.Address" Label="Address" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                    <MudTextField @bind-Value="Account.PostalCode" Label="Pin/Zip" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
                 </div>
             </MudItem>
         </MudGrid>
@@ -61,29 +87,112 @@
 
 
 @code {
+
     #region Variables
 
-    [Parameter]
-    public AccountDto NewAccount { get; set; }
 
     [Parameter]
     public Account Account { get; set; }
 
+    [Parameter]
+    public List<TemplateConfiguration> TemplateConfigurations { get; set; }
+
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
+    private List<string> Cities = new List<string>();
+    private List<string> Segments = new List<string>();
 
-    [Parameter]
-    public bool IsNewAccount { get; set; }
+    public string _currentSelectedCity { get; set; }
+    public string _currentSelectedRegion { get; set; }
+    public string _currentSelectedSegment { get; set; }
+    public string _currentSelectedTemplate { get; set; }
 
     #endregion Variables
 
 
 
     #region Events
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Account.TemplateConfigurationId > 0)
+        {
+            var templateConfiguration = TemplateConfigurations.First(x => x.Id == Account.TemplateConfigurationId);
+            _currentSelectedCity = templateConfiguration.City;
+            _currentSelectedRegion = templateConfiguration.Region;
+            _currentSelectedSegment = templateConfiguration.Segment;
+            _currentSelectedTemplate = templateConfiguration.CompanyName;
+            Segments = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
+            Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+        }
+        else
+        {
+            _currentSelectedCity = string.Empty;
+            _currentSelectedRegion = string.Empty;
+            _currentSelectedSegment = string.Empty;
+            _currentSelectedTemplate = string.Empty;
+        }
+    }
+
+
+    void Submit()
+    {
+        var templateConfiguration = TemplateConfigurations.First(x => x.CompanyName == _currentSelectedTemplate
+                                            && x.Segment == _currentSelectedSegment && x.City == _currentSelectedCity
+                                            && x.Region == _currentSelectedRegion);
+
+        if (templateConfiguration != null)
+        {
+            Account.TemplateConfigurationId = templateConfiguration.Id;
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        else
+        {
+
+        }
+
+    }
     void Cancel() => MudDialog.Cancel();
 
+
+
+    private void TemplateChanged(string newValue)
+    {
+        _currentSelectedTemplate = newValue;
+        Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+        Segments = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
+        _currentSelectedSegment = string.Empty;
+        _currentSelectedCity = string.Empty;
+        _currentSelectedRegion = string.Empty;
+    }
+
+    void SegmentChanged(string newValue)
+    {
+        _currentSelectedSegment = newValue;
+        _currentSelectedCity = string.Empty;
+        _currentSelectedRegion = string.Empty;
+        Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+    }
+
+
+    void CityChanged(string newValue)
+    {
+        _currentSelectedCity = newValue;
+        _currentSelectedRegion = TemplateConfigurations.First(x => x.CompanyName == _currentSelectedTemplate
+                                                            && x.Segment == _currentSelectedSegment
+                                                            && x.City == _currentSelectedCity).Region;
+    }
+
+    void ResetFilters()
+    {
+        _currentSelectedSegment = string.Empty;
+        _currentSelectedCity = string.Empty;
+        _currentSelectedRegion = string.Empty;
+        Segments = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.Segment).Distinct().ToList();
+        Cities = TemplateConfigurations.Where(x => x.CompanyName == _currentSelectedTemplate).Select(x => x.City).Distinct().ToList();
+    }
 
 
     #endregion Events

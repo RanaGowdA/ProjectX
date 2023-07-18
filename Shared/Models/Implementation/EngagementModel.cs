@@ -13,10 +13,7 @@ namespace CustomerRelationshipManagement.Shared.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Organization { get; set; }
-
-        [ForeignKey("AccountId")]
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
+         
 
         public EngagementModel()
         {
