@@ -1,10 +1,14 @@
-﻿@using CustomerRelationshipManagement.Shared.Models.Models;
+﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
+@using CustomerRelationshipManagement.Client.Utility;
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.AccountConfig;
+@using System.Text.Json;
+@using System.Text;
 
 <MudGrid Class="pa-5">
     <MudItem Class="mt-2" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="ProjectAccount" Items="@ProjectAccounts" EditMode="DataGridEditMode.Form"
-                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
-                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+                     Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
             <ToolBarContent>
                 <MudText Typo="Typo.h5" Color="Color.Primary">Organizations</MudText>
@@ -14,12 +18,14 @@
             </ToolBarContent>
 
             <Columns>
+                <SelectColumn T="ProjectAccount" />
                 <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
                 <PropertyColumn Property="x => x.Organization" Title="Organization" />
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="@context.Actions.StartEditingItemAsync" />
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -30,34 +36,201 @@
     </MudItem>
 </MudGrid>
 @code {
+
+    #region Variables
     private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
     private bool _isCellEditMode;
     private List<string> _events = new();
     private bool _editTriggerRowClick;
+    private ProjectAccount newProjectAccount = new ProjectAccount();
+    private ProjectAccount SelectedProjectAccount { get; set; }
+    private DialogOptions DialogOptionsAddEditLead = new DialogOptions()
+        {
+            MaxWidth = MaxWidth.ExtraLarge,
+            FullWidth = true,
+            CloseButton = true,
+            DisableBackdropClick = true,
+            Position = DialogPosition.TopCenter
+        };
+
+
+
+    #endregion Variables
 
     protected override async Task OnInitializedAsync()
     {
-        ProjectAccounts = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        ProjectAccounts = await SyncOrganizationTable();
     }
 
-    // events
-    void StartedEditingItem(ProjectAccount item)
+
+    #region Events
+
+    void SelectedItemsChanged(HashSet<ProjectAccount> items)
     {
-        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            SelectedProjectAccount = selectedItem;
+        }
     }
 
-    void CanceledEditingItem(ProjectAccount item)
+    async void StartedEditingItem()
     {
-        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsProjectAccount", true);
+        parameters.Add("NewProjectAccount", SelectedProjectAccount);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Organization", parameters, DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EPA");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(SelectedProjectAccount), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ShowColorAlerts("Account Organization Added", Severity.Success);
+                ProjectAccounts = await SyncOrganizationTable();
+                StateHasChanged();
+            }
+            else
+            {
+                ShowColorAlerts("Fail To Add", Severity.Error);
+            }
+        }
+        else
+        {
+            ShowColorAlerts("Account Organization Not Added", Severity.Info);
+        }
     }
 
-    void CommittedItemChanges(ProjectAccount item)
+    async void InfoItem()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("IsProjectAccount", true);
+        parameters.Add("IsInfo", true);
+        parameters.Add("NewProjectAccount", SelectedProjectAccount);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+    }
+
+    async void DeleteItem()
+    {
+
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = SelectedProjectAccount.Id;
+
+        // create request object
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DPA");
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            ProjectAccounts = await SyncOrganizationTable();
+            ShowColorAlerts("Account Organization Deleted", Severity.Success);
+            StateHasChanged();
+
+        }
+        else
+        {
+            ShowColorAlerts("Fail To Delete", Severity.Error);
+        }
+    }
+
+    async void CommittedItemChanges(ProjectAccount item)
     {
         _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
     }
 
     async void CreateNewProject()
     {
+        var parameters = new DialogParameters();
+        parameters.Add("IsProjectAccount", true);
+        parameters.Add("NewProjectAccount", newProjectAccount);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/APA");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(newProjectAccount), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ProjectAccounts = await SyncOrganizationTable();
+                ShowColorAlerts("Account Organization Added", Severity.Success);
+                StateHasChanged();
+
+            }
+            else
+            {
+                ShowColorAlerts("Fail To Add", Severity.Error);
+            }
+        }
+        else
+        {
+            ShowColorAlerts("Account Organization Not Added", Severity.Info);
+        }
 
     }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="TextToDisplay"></param>
+    /// <param name="AlertSeverity"></param>
+    private void ShowColorAlerts(string TextToDisplay, Severity AlertSeverity)
+    {
+        SnackbarService.Clear();
+        SnackbarService.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+        SnackbarService.Add(TextToDisplay, AlertSeverity);
+    }
+
+    /// <summary>
+    /// SyncOrganizationTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<ProjectAccount>> SyncOrganizationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return ProjectAccounts;
+        }
+    }
+
+
+    #endregion Events
 }

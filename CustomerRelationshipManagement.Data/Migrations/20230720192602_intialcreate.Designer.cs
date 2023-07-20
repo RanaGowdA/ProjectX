@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerRelationshipManagement.Data.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20230718094149_intialCreate3")]
-    partial class intialCreate3
+    [Migration("20230720192602_intialcreate")]
+    partial class intialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -242,7 +242,45 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.ToTable("Leads");
                 });
 
-            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.EngagementModel", b =>
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Competency", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectAccountId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectAccountId");
+
+                    b.ToTable("Competencies");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Engagement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectAccountId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectAccountId");
+
+                    b.ToTable("EngagementModels");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Function", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -252,13 +290,34 @@ namespace CustomerRelationshipManagement.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Organization")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProjectAccountId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EngagementModels");
+                    b.HasIndex("ProjectAccountId");
+
+                    b.ToTable("Functions");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectAccountId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectAccountId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Implementation.Account", b =>
@@ -351,6 +410,83 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.Division", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SegmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SegmentId");
+
+                    b.ToTable("Divisions");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SegmentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SegmentId");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Organization")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProjectAccounts");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.Segment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProjectAccountId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectAccountId");
+
+                    b.ToTable("Segments");
                 });
 
             modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.TemplateConfiguration", b =>
@@ -584,6 +720,83 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.Navigation("Opportunity");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Competency", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
+                        .WithMany()
+                        .HasForeignKey("ProjectAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectAccount");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Engagement", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
+                        .WithMany()
+                        .HasForeignKey("ProjectAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectAccount");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Function", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
+                        .WithMany()
+                        .HasForeignKey("ProjectAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectAccount");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Product", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
+                        .WithMany()
+                        .HasForeignKey("ProjectAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectAccount");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.Division", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.Segment", "Segment")
+                        .WithMany()
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Segment");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.Location", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.Segment", "Segment")
+                        .WithMany()
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Segment");
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.Segment", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
+                        .WithMany()
+                        .HasForeignKey("ProjectAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProjectAccount");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

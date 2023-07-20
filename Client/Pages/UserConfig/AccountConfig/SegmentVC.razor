@@ -1,24 +1,31 @@
-﻿@using CustomerRelationshipManagement.Shared.Models.Models;
- 
+﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
+
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.AccountConfig
+@using System.Text.Json;
+@using System.Text;
+
 <MudGrid Class="pa-5">
     <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Segment" Items="@Segments" EditMode="DataGridEditMode.Form"
-                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
-                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+                     Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
             <ToolBarContent>
                 <MudText Typo="Typo.h5" Color="Color.Primary">Segments</MudText>
-                <MudSpacer />  
+                <MudSpacer />
                 <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewSegment" />
             </ToolBarContent>
 
             <Columns>
+                <SelectColumn T="Segment" />
                 <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
                 <PropertyColumn Property="x => x.ProjectAccount.Organization" Title="Organization" />
                 <PropertyColumn Property="x => x.Name" Title="Name" />
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -30,16 +37,20 @@
 </MudGrid>
 @code {
     private IEnumerable<Segment> Segments = new List<Segment>();
+    private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
     private bool _isCellEditMode;
     private List<string> _events = new();
     private bool _editTriggerRowClick;
+    private Segment SelectedSegment { get; set; }
 
+    private Segment NewSegment = new Segment();
     protected override async Task OnInitializedAsync()
     {
-        Segments = await httpClient.GetFromJsonAsync<List<Segment>>("api/Template/GS");
+        Segments = await SyncSegmentTable();
+        ProjectAccounts = await SyncOrganizationTable();
     }
 
-    // events
+    #region Events
     void StartedEditingItem(Segment item)
     {
         _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
@@ -56,8 +67,176 @@
     }
 
 
+    void SelectedItemsChanged(HashSet<Segment> items)
+    {
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            SelectedSegment = selectedItem;
+        }
+    }
+    async void StartedEditingItem()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsSegment", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewSegment", SelectedSegment);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/ES");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(SelectedSegment), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationSnackbarService.ShowColorAlerts("Segment Saved!", Severity.Success, SnackbarService);
+                ProjectAccounts = await SyncOrganizationTable();
+                StateHasChanged();
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Save!", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Segment Not Saved!", Severity.Info, SnackbarService);
+        }
+    }
+
+    async void InfoItem()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("IsSegment", true);
+        parameters.Add("IsInfo", true);
+        parameters.Add("NewSegment", SelectedSegment);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+    }
+
+    async void DeleteItem()
+    {
+
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = SelectedSegment.Id;
+
+        // create request object
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DS");
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            ProjectAccounts = await SyncOrganizationTable();
+            NotificationSnackbarService.ShowColorAlerts("Segment Deleted", Severity.Success, SnackbarService);
+            StateHasChanged();
+
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Fail To Delete", Severity.Error, SnackbarService);
+        }
+    }
+
+
+
     async void CreateNewSegment()
     {
-        
+        NewSegment = new Segment();
+        var parameters = new DialogParameters();
+        parameters.Add("IsSegment", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewSegment", NewSegment);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Segment", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AS");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(NewSegment), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ProjectAccounts = await SyncOrganizationTable();
+                NotificationSnackbarService.ShowColorAlerts("Account Organization Added", Severity.Success, SnackbarService);
+                StateHasChanged();
+
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Add", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Account Organization Not Added", Severity.Info, SnackbarService);
+        }
     }
+
+    /// <summary>
+    /// SyncOrganizationTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<ProjectAccount>> SyncOrganizationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return ProjectAccounts;
+        }
+    }
+
+
+    /// <summary>
+    /// SyncSegmentTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<Segment>> SyncSegmentTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<Segment>>("api/Template/GS");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Segments;
+        }
+    }
+
+    #endregion Events
+
 }

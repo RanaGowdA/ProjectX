@@ -12,4 +12,7 @@
 @using MudBlazor.ThemeManager
 @using Microsoft.AspNetCore.Authorization 
 @using CustomerRelationshipManagement.Shared.Models;
-@inject HttpClient httpClient 
+@inject HttpClient httpClient
+@inject IDialogService Dialog
+@inject ISnackbar SnackbarService
+@using CustomerRelationshipManagement.Client.Utility;

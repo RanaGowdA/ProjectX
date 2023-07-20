@@ -249,17 +249,17 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SegmentId")
+                    b.Property<int>("ProjectAccountId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SegmentId");
+                    b.HasIndex("ProjectAccountId");
 
                     b.ToTable("Competencies");
                 });
 
-            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.EngagementModel", b =>
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Engagement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -451,7 +451,7 @@ namespace CustomerRelationshipManagement.Data.Migrations
 
                     b.HasIndex("SegmentId");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", b =>
@@ -722,16 +722,16 @@ namespace CustomerRelationshipManagement.Data.Migrations
 
             modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Competency", b =>
                 {
-                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.Segment", "Segment")
+                    b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
                         .WithMany()
-                        .HasForeignKey("SegmentId")
+                        .HasForeignKey("ProjectAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Segment");
+                    b.Navigation("ProjectAccount");
                 });
 
-            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.EngagementModel", b =>
+            modelBuilder.Entity("CustomerRelationshipManagement.Shared.Models.AccountConfig.Engagement", b =>
                 {
                     b.HasOne("CustomerRelationshipManagement.Shared.Models.Models.ProjectAccount", "ProjectAccount")
                         .WithMany()

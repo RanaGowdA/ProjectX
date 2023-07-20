@@ -1,10 +1,4 @@
-﻿using CustomerRelationshipManagement.Data.Models;
-using CustomerRelationshipManagement.Shared.Dto;
-using CustomerRelationshipManagement.Shared.Models;
-using CustomerRelationshipManagement.Shared.Models.AccountConfig;
-using CustomerRelationshipManagement.Shared.Models.Implementation;
-using CustomerRelationshipManagement.Shared.Models.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using CustomerRelationshipManagement.Shared.Models.AccountConfig;
 
 namespace CustomerRelationshipManagement.Server.Repo.Interfaces
 {

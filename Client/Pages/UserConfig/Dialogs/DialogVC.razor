@@ -1,0 +1,228 @@
+﻿@using CustomerRelationshipManagement.Shared.Models.AccountConfig;
+
+
+<MudDialog>
+    <DialogContent>
+
+        @if (IsProjectAccount)
+        {
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField Required @bind-Value="NewProjectAccount.Organization" Label="Organization" HelperText="Enter Account Organization Ex.Google" Variant="Variant.Text"
+                                  Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.HomeRepairService" AdornmentColor="Color.Primary" Immediate="true" />
+                </MudItem>
+            </MudGrid>
+        }
+
+        @if (IsSegment)
+        {
+
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="ProjectAccount" Value="NewSegment.ProjectAccount" Text="@_selectedProjectAccount"
+                               ValueChanged="@((ProjectAccount newValue) => OnProjectAccountSelectionChanged(newValue))"
+                               Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (ProjectAccount item in ProjectAccounts)
+                        {
+                            <MudSelectItem Value="@item">@item.Organization</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="NewSegment.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Segment Name Ex.Energy & Transportation"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Segment Name" Variant="Variant.Text" />
+                </MudItem>
+            </MudGrid>
+        }
+
+
+        @if (IsDivision)
+        {
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="Segment" @bind-Value="NewDivision.Segment" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (Segment item in Segments)
+                        {
+                            <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudTextField T="string" @bind-Value="NewDivision.Segment.ProjectAccount.Organization" Counter="@CounterLimit" MaxLength="@CounterLimit"
+                              Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Organization" Variant="Variant.Text" />
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="NewDivision.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Division Name" Variant="Variant.Text" />
+                </MudItem>
+            </MudGrid>
+        }
+
+        @if (IsLocation)
+        {
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="Segment" @bind-Value="NewLocation.Segment" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (Segment item in Segments)
+                        {
+                            <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudTextField T="string" @bind-Value="NewLocation.Segment.ProjectAccount.Organization" Counter="@CounterLimit" MaxLength="@CounterLimit"
+                              Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Organization" Variant="Variant.Text" />
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="NewLocation.City" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Location Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="NewLocation.State" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="State Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="NewLocation.PostalCode" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="PostalCode" Variant="Variant.Text" />
+                </MudItem>
+            </MudGrid>
+
+        }
+
+
+        @if (IsFunction)
+        {
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudSelect T="ProjectAccount" @bind-Value="NewFunction.ProjectAccount" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (ProjectAccount item in ProjectAccounts)
+                        {
+                            <MudSelectItem Value="@item">@item.Organization</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="NewFunction.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Segment Name Ex.Energy & Transportation"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Function Name" Variant="Variant.Text" />
+                </MudItem>
+            </MudGrid>
+        }
+
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit" Disabled="@IsInfo">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    #region Variables
+
+
+
+    public int CounterLimit { get; set; }
+
+    [Parameter]
+    public bool IsProjectAccount { get; set; }
+    [Parameter]
+    public ProjectAccount NewProjectAccount { get; set; }
+    [Parameter]
+    public List<ProjectAccount>? ProjectAccounts { get; set; }
+
+
+
+    [Parameter]
+    public bool IsSegment { get; set; }
+    [Parameter]
+    public Segment NewSegment { get; set; }
+
+
+    [Parameter]
+    public List<Segment>? Segments { get; set; }
+
+
+    [Parameter]
+    public bool IsDivision { get; set; }
+    public Division NewDivision { get; set; }
+
+
+    [Parameter]
+    public bool IsLocation { get; set; }
+    public Location NewLocation { get; set; }
+
+
+    [Parameter]
+    public bool IsFunction { get; set; }
+    public Function NewFunction { get; set; }
+
+
+    [Parameter]
+    public bool IsInfo { get; set; }
+
+    private string _selectedProjectAccount = "";
+    #endregion
+
+
+
+    #region Events
+    protected override async Task OnInitializedAsync()
+    {
+        _selectedProjectAccount = "";
+        CounterLimit = 25;
+        if (IsSegment && !IsInfo)
+        {
+            NewSegment.ProjectAccount = ProjectAccounts != null ? ProjectAccounts.FirstOrDefault() : new ProjectAccount();
+            _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
+        }
+
+        if (IsSegment && IsInfo)
+        {
+            _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
+        }
+    }
+    /// <summary>
+    /// OnProject Account Selection Changed
+    /// </summary>
+    private void OnProjectAccountSelectionChanged(ProjectAccount projectAccount)
+    {
+        _selectedProjectAccount = projectAccount.Organization;
+        NewSegment.ProjectAccount = projectAccount;
+        NewSegment.ProjectAccountId = projectAccount.Id;
+    }
+    /// <summary>
+    /// Restrict User Not Enter More Than @CounterLimit Characters
+    /// </summary>
+    /// <param name="character"></param>
+    /// <returns></returns>
+    private IEnumerable<string> MaxCharacters(string character)
+    {
+        if (!string.IsNullOrEmpty(character) && @CounterLimit < character?.Length)
+        {
+            yield return "Max @CounterLimit Characters";
+        }
+    }
+
+    ///// <summary>
+    /// When User Hits Ok/Add
+    /// </summary>
+    void Submit()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+
+    ///// <summary>
+    /// When User Hits Cancel/Close
+    /// </summary>
+    void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+
+
+
+    #endregion
+
+
+
+}
