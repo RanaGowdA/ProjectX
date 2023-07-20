@@ -78,8 +78,7 @@
             DisableBackdropClick = true,
             Position = DialogPosition.TopCenter
         };
-
-    public List<EngagementModel> EngagementModels = new List<EngagementModel>();
+         
     public List<TemplateConfiguration> TemplateConfigurations = new List<TemplateConfiguration>(); 
 
 
@@ -115,8 +114,7 @@
     protected override async Task OnInitializedAsync()
     {
         Accounts = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts");
-        Elements = await GetLeadListByCurrentUserIdWithDates(); 
-        EngagementModels = await httpClient.GetFromJsonAsync<List<EngagementModel>>("api/Template/allEM");
+        Elements = await GetLeadListByCurrentUserIdWithDates();  
         TemplateConfigurations = await httpClient.GetFromJsonAsync<List<TemplateConfiguration>>("api/Template/allTmpConfig");
     }
 
@@ -250,15 +248,13 @@
     /// </summary>
     /// <returns></returns>
     private async Task CreateNewLead()
-    {
-        EngagementModels = await httpClient.GetFromJsonAsync<List<EngagementModel>>("api/Template/allEM");
+    { 
         TemplateConfigurations = await httpClient.GetFromJsonAsync<List<TemplateConfiguration>>("api/Template/allTmpConfig");
         var parameters = new DialogParameters();
         NewLead = new Lead();
         parameters.Add("LeadItem", NewLead);
         parameters.Add("Accounts", Accounts);
-        parameters.Add("TemplateConfigurations", TemplateConfigurations);
-        parameters.Add("EngagementModels", EngagementModels);
+        parameters.Add("TemplateConfigurations", TemplateConfigurations); 
         parameters.Add("IsLead", true);
         var dialog = await Dialog.ShowAsync<LeadOppProVC>("Add Lead", parameters, DialogOptionsAddEditLead);
         var result = await dialog.Result;

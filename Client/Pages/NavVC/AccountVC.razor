@@ -76,8 +76,7 @@
             DisableBackdropClick = true,
             Position = DialogPosition.TopCenter
         };
-
-    public List<EngagementModel> EngagementModels = new List<EngagementModel>();
+         
     public List<TemplateConfiguration> TemplateConfigurations = new List<TemplateConfiguration>();
     public List<String> Configurations = new List<string>();
 
@@ -116,8 +115,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Elements = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts");
-        EngagementModels = await httpClient.GetFromJsonAsync<List<EngagementModel>>("api/Template/allEM");
+        Elements = await httpClient.GetFromJsonAsync<List<Account>>("api/Template/allAccounts"); 
         TemplateConfigurations = await httpClient.GetFromJsonAsync<List<TemplateConfiguration>>("api/Template/allTmpConfig");
         if (TemplateConfigurations != null)
         {

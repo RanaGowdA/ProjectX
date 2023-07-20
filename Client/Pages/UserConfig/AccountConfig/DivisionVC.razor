@@ -1,0 +1,63 @@
+﻿@using CustomerRelationshipManagement.Shared.Models.Models;
+
+<MudGrid Class="pa-5">
+    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+        <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Division" Items="@Divisions" EditMode="DataGridEditMode.Form"
+                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
+                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Divisions</MudText>
+                <MudSpacer />
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewDivision" />
+            </ToolBarContent>
+
+            <Columns>
+                <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
+                <PropertyColumn Property="x => x.Segment.Name" Title="Segment" />
+                <PropertyColumn Property="x => x.Name" Title="Name" /> 
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="Division" RowsPerPageString="10" />
+            </PagerContent>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
+@code {
+    private IEnumerable<Division> Divisions = new List<Division>();
+    private bool _isCellEditMode;
+    private List<string> _events = new();
+    private bool _editTriggerRowClick;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Divisions = await httpClient.GetFromJsonAsync<List<Division>>("api/Template/GD");
+    }
+
+    // events
+    void StartedEditingItem(Division item)
+    {
+        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CanceledEditingItem(Division item)
+    {
+        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CommittedItemChanges(Division item)
+    {
+        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+
+    async void CreateNewDivision()
+    {
+
+    }
+}

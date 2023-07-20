@@ -1,0 +1,63 @@
+﻿@using CustomerRelationshipManagement.Shared.Models.Models;
+
+<MudGrid Class="pa-5">
+    <MudItem Class="mt-2" xs="12" Style="height: fit-content;">
+        <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="ProjectAccount" Items="@ProjectAccounts" EditMode="DataGridEditMode.Form"
+                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
+                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Organizations</MudText>
+                <MudSpacer />
+                <MudSpacer />
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewProject" />
+            </ToolBarContent>
+
+            <Columns>
+                <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
+                <PropertyColumn Property="x => x.Organization" Title="Organization" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="@context.Actions.StartEditingItemAsync" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="ProjectAccount" RowsPerPageString="10" />
+            </PagerContent>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
+@code {
+    private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
+    private bool _isCellEditMode;
+    private List<string> _events = new();
+    private bool _editTriggerRowClick;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ProjectAccounts = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+    }
+
+    // events
+    void StartedEditingItem(ProjectAccount item)
+    {
+        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CanceledEditingItem(ProjectAccount item)
+    {
+        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CommittedItemChanges(ProjectAccount item)
+    {
+        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    async void CreateNewProject()
+    {
+
+    }
+}

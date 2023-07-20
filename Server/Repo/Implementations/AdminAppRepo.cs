@@ -1,11 +1,14 @@
-﻿using CustomerRelationshipManagement.Data;
+﻿using CustomerRelationshipManagement.Client.Pages.UserConfig.AccountConfig;
+using CustomerRelationshipManagement.Data;
 using CustomerRelationshipManagement.Data.Models;
 using CustomerRelationshipManagement.Server.Repo.Interfaces;
 using CustomerRelationshipManagement.Shared;
 using CustomerRelationshipManagement.Shared.Dto;
 using CustomerRelationshipManagement.Shared.Models;
+using CustomerRelationshipManagement.Shared.Models.AccountConfig;
 using CustomerRelationshipManagement.Shared.Models.Implementation;
 using CustomerRelationshipManagement.Shared.Models.Interfaces;
+using CustomerRelationshipManagement.Shared.Models.Models;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.WebRequestMethods;
 
@@ -20,37 +23,86 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             _context = context;
         }
 
-        public Task<bool> AddEngagementModelEng(EngagementModel engagementModel)
+        public async Task<bool> AddDivision(Division division)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> AddProjectAccount(Account ProjectAccount)
-        {
-            ProjectAccount.CreatedOn = DateTime.UtcNow;
-            await _context.Accounts.AddAsync(ProjectAccount);
+            await _context.Divisions.AddAsync(division);
             var result = await _context.SaveChangesAsync();
             return result > 0;
         }
 
-        public Task<bool> AddTemplateConfiguration(TemplateConfiguration templateConfiguration)
+        public async Task<bool> AddLocation(Location location)
         {
-            throw new NotImplementedException();
+            await _context.Location.AddAsync(location);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
-        public Task<bool> DeleteEngagementModel(int EngagementModelId)
+        public async Task<bool> AddProjectAccount(ProjectAccount projectAccount)
         {
-            throw new NotImplementedException();
+            await _context.ProjectAccounts.AddAsync(projectAccount);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+
+        public async Task<bool> AddSegment(Segment segment)
+        {
+            await _context.Segments.AddAsync(segment);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+        }
+
+        public async Task<bool> DeleteDivision(int id)
+        {
+            var savedProjectAccount = await _context.Divisions.Where(s => s.Id == id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Divisions.Remove(savedProjectAccount);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteLocation(int id)
+        {
+            var savedProjectAccount = await _context.Location.Where(s => s.Id == id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Location.Remove(savedProjectAccount);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
         }
 
         public async Task<bool> DeleteProjectAccount(int ProjectAccountId)
         {
-            var savedProjectAccount = await _context.Accounts.Where(s => s.Id == ProjectAccountId).FirstOrDefaultAsync();
+            var savedProjectAccount = await _context.ProjectAccounts.Where(s => s.Id == ProjectAccountId).FirstOrDefaultAsync();
             if (savedProjectAccount != null)
             {
                 try
                 {
-                    _context.Accounts.Remove(savedProjectAccount);
+                    _context.ProjectAccounts.Remove(savedProjectAccount);
                     var result = await _context.SaveChangesAsync();
                     if (result > 0)
                     {
@@ -65,25 +117,14 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             return false;
         }
 
-        public Task<bool> DeleteTemplateConfigurations(int TemplateConfigurationId)
+        public async Task<bool> DeleteSegment(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> EditEngagementModel(DataIdDTO dataIdDTO)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> EditProjectAccount(Account ProjectAccount)
-        {
-            ProjectAccount.ModifiedOn = DateTime.UtcNow;
-            var savedProjectAccount = await _context.Accounts.Where(s => s.Id == ProjectAccount.Id).FirstOrDefaultAsync();
+            var savedProjectAccount = await _context.Segments.Where(s => s.Id == id).FirstOrDefaultAsync();
             if (savedProjectAccount != null)
             {
                 try
                 {
-                    _context.Entry(savedProjectAccount).CurrentValues.SetValues(ProjectAccount);
+                    _context.Segments.Remove(savedProjectAccount);
                     var result = await _context.SaveChangesAsync();
                     if (result > 0)
                     {
@@ -98,34 +139,123 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
             return false;
         }
 
-        public Task<bool> EditTemplateConfigurations(TemplateConfiguration templateConfiguration)
+        public async Task<bool> EditDivision(Division division)
         {
-            throw new NotImplementedException();
+            var savedProjectAccount = await _context.Divisions.Where(s => s.Id == division.Id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Entry(savedProjectAccount).CurrentValues.SetValues(division);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
         }
 
-        public async Task<List<Account>> GetAccounts()
+        public async Task<bool> EditLocation(Location location)
         {
-            return await _context.Accounts.ToListAsync();
+            var savedProjectAccount = await _context.Location.Where(s => s.Id == location.Id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Entry(savedProjectAccount).CurrentValues.SetValues(location);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
         }
 
-        public async Task<AppUser> GetAppUserByAxicianIdAsync(string AxcianId)
+        public async Task<bool> EditProjectAccount(ProjectAccount projectAccount)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.UserCode == AxcianId);
+            var savedProjectAccount = await _context.ProjectAccounts.Where(s => s.Id == projectAccount.Id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Entry(savedProjectAccount).CurrentValues.SetValues(projectAccount);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
         }
 
-        public async Task<AppUser> GetAppUserByIdAsync(int id)
+        public async Task<bool> EditSegment(Segment segment)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            var savedProjectAccount = await _context.Segments.Where(s => s.Id == segment.Id).FirstOrDefaultAsync();
+            if (savedProjectAccount != null)
+            {
+                try
+                {
+                    _context.Entry(savedProjectAccount).CurrentValues.SetValues(segment);
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+            return false;
         }
 
-        public async Task<List<EngagementModel>> GetEngagementModels()
+        public async Task<List<Division>> GetDivisions()
         {
-            return await _context.EngagementModels.ToListAsync();
+            var result = await _context.Divisions.Include(x => x.Segment).ToListAsync();
+            return result;
         }
 
-        public async Task<List<TemplateConfiguration>> GetTemplateConfigurations()
+        public async Task<List<Function>> GetFunctions()
         {
-            return await _context.TemplateConfigurations.ToListAsync();
+            var result = await _context.Functions.Include(x => x.ProjectAccount).ToListAsync();
+            return result;
+        }
+
+        public async Task<List<Location>> GetLocations()
+        {
+            var result = await _context.Location.Include(x => x.Segment).ToListAsync();
+            return result;
+        }
+
+        public async Task<List<ProjectAccount>> GetProjectAccounts()
+        {
+            var result = await _context.ProjectAccounts.ToListAsync();
+            return result;
+        }
+
+        public async Task<List<Segment>> GetSegments()
+        {
+            var result = await _context.Segments.Include(x=>x.ProjectAccount).ToListAsync();
+            return result;
         }
     }
 }

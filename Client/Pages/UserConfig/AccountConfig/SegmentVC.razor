@@ -1,0 +1,63 @@
+﻿@using CustomerRelationshipManagement.Shared.Models.Models;
+ 
+<MudGrid Class="pa-5">
+    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+        <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Segment" Items="@Segments" EditMode="DataGridEditMode.Form"
+                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
+                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Segments</MudText>
+                <MudSpacer />  
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewSegment" />
+            </ToolBarContent>
+
+            <Columns>
+                <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
+                <PropertyColumn Property="x => x.ProjectAccount.Organization" Title="Organization" />
+                <PropertyColumn Property="x => x.Name" Title="Name" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="Segment" RowsPerPageString="10" />
+            </PagerContent>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
+@code {
+    private IEnumerable<Segment> Segments = new List<Segment>();
+    private bool _isCellEditMode;
+    private List<string> _events = new();
+    private bool _editTriggerRowClick;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Segments = await httpClient.GetFromJsonAsync<List<Segment>>("api/Template/GS");
+    }
+
+    // events
+    void StartedEditingItem(Segment item)
+    {
+        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CanceledEditingItem(Segment item)
+    {
+        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CommittedItemChanges(Segment item)
+    {
+        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+
+    async void CreateNewSegment()
+    {
+        
+    }
+}

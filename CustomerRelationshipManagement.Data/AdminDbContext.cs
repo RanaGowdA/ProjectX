@@ -2,7 +2,9 @@
 using CustomerRelationshipManagement.Data.Models;
 using CustomerRelationshipManagement.Shared;
 using CustomerRelationshipManagement.Shared.Models;
+using CustomerRelationshipManagement.Shared.Models.AccountConfig;
 using CustomerRelationshipManagement.Shared.Models.Implementation;
+using CustomerRelationshipManagement.Shared.Models.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,17 @@ namespace CustomerRelationshipManagement.Data
         public DbSet<Project> Projects { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<TemplateConfiguration> TemplateConfigurations { get; set; }
+
+
+        public DbSet<ProjectAccount> ProjectAccounts { get; set; }
+        public DbSet<Segment> Segments { get; set; }
+        public DbSet<Division> Divisions { get; set; }
+        public DbSet<Location> Location { get; set; }
         public DbSet<EngagementModel> EngagementModels { get; set; }
+        public DbSet<Function> Functions { get; set; }
+        public DbSet<Competency> Competencies { get; set; }
+        public DbSet<Product> Products { get; set; }
+         
 
         public AdminDbContext(DbContextOptions<AdminDbContext> options) : base(options)
         {
@@ -39,8 +51,8 @@ namespace CustomerRelationshipManagement.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AppUser>()
-                .HasIndex("Email", "UserName"); 
-
+                .HasIndex("Email", "UserName");
+             
             modelBuilder.Entity<Lead>().HasOne(x => x.Account).WithMany(x => x.Leads).HasForeignKey(x => x.LeadId);
             modelBuilder.Entity<Lead>().Property(s => s.IsLCFL).HasDefaultValue(false);
             modelBuilder.Entity<Lead>().Property(s => s.IsLCFO).HasDefaultValue(false);

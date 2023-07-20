@@ -1,0 +1,31 @@
+﻿@page "/PACVC"
+@using CustomerRelationshipManagement.Client.Pages.UserConfig.AccountConfig 
+<MudTabs Elevation="4" Rounded="true" AlwaysShowScrollButtons="true" Style="@($"color:{Colors.Indigo.Darken4}")" Class="mt-4 mr-5 ml-5">
+    <MudTabPanel Text="Orgnizations" Icon="@Icons.Material.Filled.Warehouse">
+        <OrgVC> </OrgVC>
+    </MudTabPanel>
+    <MudTabPanel Text="Segments" Icon="@Icons.Material.Filled.PieChart">
+        <SegmentVC></SegmentVC>
+    </MudTabPanel>
+    <MudTabPanel Text="Divisions" Icon="@Icons.Material.Filled.AirlineStops">
+        <DivisionVC></DivisionVC>
+    </MudTabPanel>
+    <MudTabPanel Text="Locations" Icon="@Icons.Material.Filled.AddLocationAlt">
+        <LocationVC></LocationVC>
+    </MudTabPanel>
+    <MudTabPanel Text="Functions" Icon="@Icons.Material.Filled.WorkspacePremium">
+        <FunctionVC></FunctionVC>
+    </MudTabPanel>
+    <MudTabPanel Text="Competencies" Icon="@Icons.Material.Filled._6FtApart">
+        <CompetencyVC></CompetencyVC>
+    </MudTabPanel>
+    <MudTabPanel Text="Engagement Models" Icon="@Icons.Material.Filled.ModelTraining">
+        <EngagementModelVC></EngagementModelVC>
+    </MudTabPanel>
+</MudTabs>
+
+
+
+@code {
+
+}

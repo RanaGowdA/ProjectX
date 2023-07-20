@@ -1,0 +1,65 @@
+﻿@using CustomerRelationshipManagement.Shared.Models.Models;
+
+<MudGrid Class="pa-5">
+    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+        <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Location" Items="@Locations" EditMode="DataGridEditMode.Form"
+                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
+                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Locations</MudText>
+                <MudSpacer />
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewLocation" />
+            </ToolBarContent>
+
+            <Columns>
+                <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
+                <PropertyColumn Property="x => x.Segment.Name" Title="Segment" />
+                <PropertyColumn Property="x => x.City" Title="City" />
+                <PropertyColumn Property="x => x.State" Title="State" />
+                <PropertyColumn Property="x => x.PostalCode" Title="PostalCode" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="Location" RowsPerPageString="10" />
+            </PagerContent>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
+@code {
+    private IEnumerable<Location> Locations = new List<Location>();
+    private bool _isCellEditMode;
+    private List<string> _events = new();
+    private bool _editTriggerRowClick;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Locations = await httpClient.GetFromJsonAsync<List<Location>>("api/Template/GL");
+    }
+
+    // events
+    void StartedEditingItem(Location item)
+    {
+        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CanceledEditingItem(Location item)
+    {
+        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+    void CommittedItemChanges(Location item)
+    {
+        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+    }
+
+
+    async void CreateNewLocation()
+    {
+
+    }
+}

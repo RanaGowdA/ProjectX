@@ -4,6 +4,7 @@ using CustomerRelationshipManagement.Shared;
 using CustomerRelationshipManagement.Shared.Dto;
 using CustomerRelationshipManagement.Shared.Models;
 using CustomerRelationshipManagement.Shared.Models.Implementation;
+using CustomerRelationshipManagement.Shared.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,80 +26,97 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
             return "TemplateControllerConnected";
         }
 
-        // POST: Template/addEM
-        [HttpPost("addEM")]
-        public async Task<bool> CreateNewEngagementModel(EngagementModel engagementModel)
-        {
-            return await _adminContext.AddEngagementModelEng(engagementModel);
-        }
-
-        // GET: Template/allEM
-        [HttpGet("allEM")]
-        public async Task<List<EngagementModel>> GetAllEngagementModelEng()
-        {
-            return await _adminContext.GetEngagementModels();
-        }
-
-        // GET: Template/allTmpConfig
-        [HttpGet("allTmpConfig")]
-        public async Task<List<TemplateConfiguration>> GetAllTemplateConfiguration()
-        {
-            return await _adminContext.GetTemplateConfigurations();
-        }
 
 
-        // POST: Template/AddPAccount
-        [HttpPost("AddPAccount")]
-        public async Task<bool> CreateNewAddAccount(Account ProjectAccount)
+        // POST: Template/CNAA
+        [HttpPost("APA")]
+        public async Task<bool> AddProjectAccount(ProjectAccount ProjectAccount)
         {
-            //Account account = new Account();
-            //account.Address = ProjectAccount.Address1;
-            //account.State = ProjectAccount.State;
-            //account.WebSite = ProjectAccount.WebSite;
-            //account.Organization = ProjectAccount.Organization;
-            //account.Title = ProjectAccount.Title;
-            //account.Phone = ProjectAccount.Phone;
-            //account.MobilePhone = ProjectAccount.MobilePhone;
-            //account.Fax = ProjectAccount.Fax;
-            //account.NumberOfEmployees = ProjectAccount.NumberOfEmployees;
-            //account.PostalCode = ProjectAccount.PostalCode;
-            //account.City = ProjectAccount.City;
-            //account.Country = ProjectAccount.Country;
-            //account.Geo = Geo.EUROPE;
-            //account.EmailAddress = ProjectAccount.EmailAddress;
-            //account.Name = ProjectAccount.Name;
-            //account.LastName = ProjectAccount.LastName;
-            //account.CreatedById = ProjectAccount.CreatedById;
-            //account.Industry = ProjectAccount.Industry;
-            //account.ModifiedById = ProjectAccount.ModifiedById;
             return await _adminContext.AddProjectAccount(ProjectAccount);
         }
 
-
-
-
-        // POST: Template/AddPAccount
-        [HttpPost("EditPAccount")]
-        public async Task<bool> CreateEditAccount(Account ProjectAccount)
+        // POST: Template/EPA
+        [HttpPost("EPA")]
+        public async Task<bool> EditProjectAccount(ProjectAccount ProjectAccount)
         {
             return await _adminContext.EditProjectAccount(ProjectAccount);
         }
 
-
-        // POST: Template/AddPAccount
-        [HttpPost("deletePAccount")]
-        public async Task<bool> CreateDeleteAccount(DataIdDTO ProjectAccountIdDto)
+        // GET: Template/GPA
+        [HttpGet("GPA")]
+        public async Task<List<ProjectAccount>> GetProjectAccounts()
         {
-            return await _adminContext.DeleteProjectAccount(ProjectAccountIdDto.Id);
+            return await _adminContext.GetProjectAccounts();
+        }
+
+        // POST: Template/AS
+        [HttpPost("AS")]
+        public async Task<bool> AddSegment(Segment segment)
+        {
+            return await _adminContext.AddSegment(segment);
+        }
+
+        // POST: Template/ES
+        [HttpPost("ES")]
+        public async Task<bool> EditSegment(Segment segment)
+        {
+            return await _adminContext.EditSegment(segment);
+        }
+
+        // GET: Template/GS
+        [HttpGet("GS")]
+        public async Task<List<Segment>> GetSegments()
+        {
+            return await _adminContext.GetSegments();
+        }
+
+        // POST: Template/AS
+        [HttpPost("AD")]
+        public async Task<bool> AddDivision(Division division)
+        {
+            return await _adminContext.AddDivision(division);
+        }
+
+        // POST: Template/ED
+        [HttpPost("ED")]
+        public async Task<bool> EditDivision(Division division)
+        {
+            return await _adminContext.EditDivision(division);
+        }
+
+        // GET: Template/GD
+        [HttpGet("GD")]
+        public async Task<List<Division>> GetDivisions()
+        {
+            return await _adminContext.GetDivisions();
         }
 
 
-        // GET: Template/allTmpConfig
-        [HttpGet("allAccounts")]
-        public async Task<List<Account>> GetAllAccounts()
+        // POST: Template/AL
+        [HttpPost("AL")]
+        public async Task<bool> AddLocation(Location location)
         {
-            return await _adminContext.GetAccounts();
+            return await _adminContext.AddLocation(location);
         }
+
+        // POST: Template/EL
+        [HttpPost("EL")]
+        public async Task<bool> EditLocation(Location location)
+        {
+            return await _adminContext.EditLocation(location);
+        }
+
+        // GET: Template/GL
+        [HttpGet("GL")]
+        public async Task<List<Location>> GetLocations()
+        {
+            return await _adminContext.GetLocations();
+        }
+
+
+
+
+
 
     }
 }
