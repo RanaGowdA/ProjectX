@@ -1,16 +1,8 @@
 ﻿using CustomerRelationshipManagement.Client.Pages.UserConfig.AccountConfig;
 using CustomerRelationshipManagement.Data;
-using CustomerRelationshipManagement.Data.Models;
 using CustomerRelationshipManagement.Server.Repo.Interfaces;
-using CustomerRelationshipManagement.Shared;
-using CustomerRelationshipManagement.Shared.Dto;
-using CustomerRelationshipManagement.Shared.Models;
 using CustomerRelationshipManagement.Shared.Models.AccountConfig;
-using CustomerRelationshipManagement.Shared.Models.Implementation;
-using CustomerRelationshipManagement.Shared.Models.Interfaces;
-using CustomerRelationshipManagement.Shared.Models.Models;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.WebRequestMethods;
 
 namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 {
@@ -26,13 +18,18 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
         public async Task<bool> AddDivision(Division division)
         {
             await _context.Divisions.AddAsync(division);
+            var segment = await _context.Segments.FirstOrDefaultAsync(s => s.Id == division.SegmentId);
+            var projectAccount = await _context.ProjectAccounts.FirstOrDefaultAsync(pa => pa.Id == segment.ProjectAccountId);
+            _ = _context.Segments.Attach(segment);
+            _ = _context.ProjectAccounts.Attach(projectAccount);
+
             var result = await _context.SaveChangesAsync();
             return result > 0;
         }
 
         public async Task<bool> AddLocation(Location location)
         {
-            await _context.Location.AddAsync(location);
+            await _context.Locations.AddAsync(location);
             var result = await _context.SaveChangesAsync();
             return result > 0;
         }
@@ -47,6 +44,10 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
         public async Task<bool> AddSegment(Segment segment)
         {
             await _context.Segments.AddAsync(segment);
+
+            var projectAccount = await _context.ProjectAccounts.FirstOrDefaultAsync(pa => pa.Id == segment.ProjectAccountId);
+            _ = _context.ProjectAccounts.Attach(projectAccount);
+
             var result = await _context.SaveChangesAsync();
             return result > 0;
         }
@@ -75,12 +76,12 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 
         public async Task<bool> DeleteLocation(int id)
         {
-            var savedProjectAccount = await _context.Location.Where(s => s.Id == id).FirstOrDefaultAsync();
+            var savedProjectAccount = await _context.Locations.Where(s => s.Id == id).FirstOrDefaultAsync();
             if (savedProjectAccount != null)
             {
                 try
                 {
-                    _context.Location.Remove(savedProjectAccount);
+                    _context.Locations.Remove(savedProjectAccount);
                     var result = await _context.SaveChangesAsync();
                     if (result > 0)
                     {
@@ -163,7 +164,7 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 
         public async Task<bool> EditLocation(Location location)
         {
-            var savedProjectAccount = await _context.Location.Where(s => s.Id == location.Id).FirstOrDefaultAsync();
+            var savedProjectAccount = await _context.Locations.Where(s => s.Id == location.Id).FirstOrDefaultAsync();
             if (savedProjectAccount != null)
             {
                 try
@@ -230,7 +231,7 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 
         public async Task<List<Division>> GetDivisions()
         {
-            var result = await _context.Divisions.Include(x => x.Segment).ToListAsync();
+            var result = await _context.Divisions.Include(x => x.Segment).ThenInclude(x => x.ProjectAccount).ToListAsync();
             return result;
         }
 
@@ -242,7 +243,7 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 
         public async Task<List<Location>> GetLocations()
         {
-            var result = await _context.Location.Include(x => x.Segment).ToListAsync();
+            var result = await _context.Locations.Include(x => x.Segment).ToListAsync();
             return result;
         }
 
@@ -254,7 +255,7 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
 
         public async Task<List<Segment>> GetSegments()
         {
-            var result = await _context.Segments.Include(x=>x.ProjectAccount).ToListAsync();
+            var result = await _context.Segments.Include(x => x.ProjectAccount).ToListAsync();
             return result;
         }
     }

@@ -1,10 +1,4 @@
-﻿using CustomerRelationshipManagement.Shared.Models.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerRelationshipManagement.Shared.Models.AccountConfig
 {
@@ -13,8 +7,8 @@ namespace CustomerRelationshipManagement.Shared.Models.AccountConfig
         public int Id { get; set; }
         public string? Name { get; set; }
 
-        [ForeignKey("SegmentId")]
-        public int SegmentId { get; set; }
-        public Segment? Segment { get; set; }
+        [ForeignKey("ProjectAccountId")]
+        public int ProjectAccountId { get; set; }
+        public ProjectAccount? ProjectAccount { get; set; }
     }
 }

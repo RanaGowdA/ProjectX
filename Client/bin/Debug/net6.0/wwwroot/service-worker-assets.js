@@ -933,19 +933,19 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
-      "hash": "sha256-xEm4Z0yJsiNFgDWk6y4IM9WQ99NBrOKeU55FqiaJA2M=",
+      "hash": "sha256-fRHGb2yaJmF7t2on19OFy2aLnO2le\/2N3Dv8dNj0Zls=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.dll"
     },
     {
-      "hash": "sha256-7JKlOQpbFtHH21p61nuWLexybqaRGdMyj7Pn4ldasME=",
+      "hash": "sha256-EiIm+0xDqoOV\/SiZzawr0ryZhsya3G8COoyPGEMsVHw=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.pdb"
     },
     {
-      "hash": "sha256-x8o2DPdQcbjkE3dobnvozEK0y34pZNhA2MgO9hxumIQ=",
+      "hash": "sha256-nvbH8xATweQ8DWM+RuZwASXG8VGpcYJn8lvoCZ4Qa9U=",
       "url": "_framework\/CustomerRelationshipManagement.Client.dll"
     },
     {
-      "hash": "sha256-Ckqt4g2nYhUCLsp8BJfq1+stE2h6Fe4tjNA3IfqTZBM=",
+      "hash": "sha256-7H10o1dUO8T\/B\/SaG7BPV47o8OY3wQl1+iNZfdnGJ3U=",
       "url": "_framework\/CustomerRelationshipManagement.Client.pdb"
     },
     {
@@ -953,7 +953,7 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
-      "hash": "sha256-D5uSCz5f94YMxSsEDJhApL6R64I9piP4yQ0uzOt2xa8=",
+      "hash": "sha256-yXQe1IwrHTmGEdRttOLWocZTOjEteLB59iyOLDDEHSE=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -969,5 +969,5 @@
       "url": "_content\/MudBlazor.ThemeManager\/MudBlazorThemeManager.css"
     }
   ],
-  "version": "tmhnhmmB"
+  "version": "QIomUjRn"
 };

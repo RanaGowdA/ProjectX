@@ -322,6 +322,8 @@ R:\Web Development\RanaAdigowni\ProjectX\ProjectX\Server\obj\Debug\net6.0\scoped
 R:\Web Development\RanaAdigowni\ProjectX\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.csproj.CopyComplete
 R:\Web Development\RanaAdigowni\ProjectX\ProjectX\Server\obj\Debug\net6.0\CustomerRelationshipManagement.Server.genruntimeconfig.cache
 R:\Web Development\RanaAdigowni\ProjectX\ProjectX\Server\obj\Debug\net6.0\ref\CustomerRelationshipManagement.Server.dll
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so
+C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\win-arm\native\e_sqlite3.dll
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\CustomerRelationshipManagement.Client.staticwebassets.runtime.json
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\appsettings.json
@@ -390,7 +392,6 @@ C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\l
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-armel\native\libe_sqlite3.so
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-mips64\native\libe_sqlite3.so
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-musl-arm\native\libe_sqlite3.so
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-musl-arm64\native\libe_sqlite3.so
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-musl-x64\native\libe_sqlite3.so
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-s390x\native\libe_sqlite3.so
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\linux-x64\native\libe_sqlite3.so
@@ -399,7 +400,6 @@ C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\m
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\maccatalyst-x64\native\libe_sqlite3.dylib
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\osx-arm64\native\libe_sqlite3.dylib
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\osx-x64\native\libe_sqlite3.dylib
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\win-arm\native\e_sqlite3.dll
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Server\bin\Debug\net6.0\runtimes\win-x86\native\e_sqlite3.dll

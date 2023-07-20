@@ -3,8 +3,8 @@ using CustomerRelationshipManagement.Server.Repo.Interfaces;
 using CustomerRelationshipManagement.Shared;
 using CustomerRelationshipManagement.Shared.Dto;
 using CustomerRelationshipManagement.Shared.Models;
+using CustomerRelationshipManagement.Shared.Models.AccountConfig;
 using CustomerRelationshipManagement.Shared.Models.Implementation;
-using CustomerRelationshipManagement.Shared.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +28,7 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
 
 
 
-        // POST: Template/CNAA
+        // POST: Template/APA
         [HttpPost("APA")]
         public async Task<bool> AddProjectAccount(ProjectAccount ProjectAccount)
         {
@@ -40,6 +40,14 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
         public async Task<bool> EditProjectAccount(ProjectAccount ProjectAccount)
         {
             return await _adminContext.EditProjectAccount(ProjectAccount);
+        }
+
+
+        // POST: Template/DPA
+        [HttpPost("DPA")]
+        public async Task<bool> DeleteProjectAccount(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteProjectAccount(dataIdDTO.Id);
         }
 
         // GET: Template/GPA
@@ -63,6 +71,14 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
             return await _adminContext.EditSegment(segment);
         }
 
+
+        // POST: Template/DS
+        [HttpPost("DS")]
+        public async Task<bool> DeleteSegment(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteSegment(dataIdDTO.Id);
+        }
+
         // GET: Template/GS
         [HttpGet("GS")]
         public async Task<List<Segment>> GetSegments()
@@ -82,6 +98,13 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
         public async Task<bool> EditDivision(Division division)
         {
             return await _adminContext.EditDivision(division);
+        }
+
+        // POST: Template/DD
+        [HttpPost("DD")]
+        public async Task<bool> DeleteDivision(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteDivision(dataIdDTO.Id);
         }
 
         // GET: Template/GD
@@ -104,6 +127,14 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
         public async Task<bool> EditLocation(Location location)
         {
             return await _adminContext.EditLocation(location);
+        }
+
+
+        // POST: Template/DL
+        [HttpPost("DL")]
+        public async Task<bool> DeleteLocation(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteLocation(dataIdDTO.Id);
         }
 
         // GET: Template/GL

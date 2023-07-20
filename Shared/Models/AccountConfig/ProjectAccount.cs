@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CustomerRelationshipManagement.Shared.Models.Models
+﻿namespace CustomerRelationshipManagement.Shared.Models.AccountConfig
 {
     public class ProjectAccount
     {

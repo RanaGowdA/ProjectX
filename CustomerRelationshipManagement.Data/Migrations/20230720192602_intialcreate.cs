@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CustomerRelationshipManagement.Data.Migrations
 {
-    public partial class otherentity : Migration
+    public partial class intialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -276,6 +276,26 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Competencies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    ProjectAccountId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Competencies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Competencies_ProjectAccounts_ProjectAccountId",
+                        column: x => x.ProjectAccountId,
+                        principalTable: "ProjectAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EngagementModels",
                 columns: table => new
                 {
@@ -406,26 +426,6 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Competencies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    SegmentId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Competencies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Competencies_Segments_SegmentId",
-                        column: x => x.SegmentId,
-                        principalTable: "Segments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Divisions",
                 columns: table => new
                 {
@@ -446,7 +446,7 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Location",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -458,9 +458,9 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Location", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Location_Segments_SegmentId",
+                        name: "FK_Locations_Segments_SegmentId",
                         column: x => x.SegmentId,
                         principalTable: "Segments",
                         principalColumn: "Id",
@@ -520,9 +520,9 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Competencies_SegmentId",
+                name: "IX_Competencies_ProjectAccountId",
                 table: "Competencies",
-                column: "SegmentId");
+                column: "ProjectAccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Divisions_SegmentId",
@@ -552,8 +552,8 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Location_SegmentId",
-                table: "Location",
+                name: "IX_Locations_SegmentId",
+                table: "Locations",
                 column: "SegmentId");
 
             migrationBuilder.CreateIndex(
@@ -600,7 +600,7 @@ namespace CustomerRelationshipManagement.Data.Migrations
                 name: "Leads");
 
             migrationBuilder.DropTable(
-                name: "Location");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Products");

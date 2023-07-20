@@ -1,10 +1,13 @@
-﻿@using CustomerRelationshipManagement.Shared.Models.Models;
+﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.AccountConfig;
+@using System.Text.Json;
+@using System.Text;
 
 <MudGrid Class="pa-5">
     <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Division" Items="@Divisions" EditMode="DataGridEditMode.Form"
-                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
-                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+                     Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
             <ToolBarContent>
                 <MudText Typo="Typo.h5" Color="Color.Primary">Divisions</MudText>
@@ -13,12 +16,16 @@
             </ToolBarContent>
 
             <Columns>
+                <SelectColumn T="Division" />
                 <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
                 <PropertyColumn Property="x => x.Segment.Name" Title="Segment" />
-                <PropertyColumn Property="x => x.Name" Title="Name" /> 
+                <PropertyColumn Property="x => x.Segment.ProjectAccount.Organization" Title="Organization" />
+                <PropertyColumn Property="x => x.Name" Title="Name" />
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -30,34 +37,219 @@
 </MudGrid>
 @code {
     private IEnumerable<Division> Divisions = new List<Division>();
+    private IEnumerable<Segment> Segments = new List<Segment>();
+    private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
     private bool _isCellEditMode;
     private List<string> _events = new();
     private bool _editTriggerRowClick;
 
+    private Division SelectedDivision { get; set; }
+
+    private Division NewDivision = new Division();
+
+
     protected override async Task OnInitializedAsync()
     {
-        Divisions = await httpClient.GetFromJsonAsync<List<Division>>("api/Template/GD");
+        Divisions = await SyncDivisionTable();
+        Segments = await SyncSegmentTable();
+        ProjectAccounts = await SyncOrganizationTable();
     }
 
-    // events
-    void StartedEditingItem(Division item)
+    #region Events
+
+    void SelectedItemsChanged(HashSet<Division> items)
     {
-        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            SelectedDivision = selectedItem;
+        }
+    }
+    async void StartedEditingItem()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsDivision", true);
+        parameters.Add("Segments", Segments);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewDivision", SelectedDivision);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Division", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/ED");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(SelectedDivision), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationSnackbarService.ShowColorAlerts("Division Saved!", Severity.Success, SnackbarService);
+                ProjectAccounts = await SyncOrganizationTable();
+                StateHasChanged();
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Save!", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Division Not Saved!", Severity.Info, SnackbarService);
+        }
     }
 
-    void CanceledEditingItem(Division item)
+    async void InfoItem()
     {
-        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+        if (SelectedDivision != null)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("IsDivision", true);
+            parameters.Add("IsInfo", true);
+            parameters.Add("Segments", Segments);
+            parameters.Add("ProjectAccounts", ProjectAccounts);
+            parameters.Add("NewDivision", SelectedDivision);
+            var dialog = await Dialog.ShowAsync<DialogVC>("Division Info", parameters, DialogSettings.DialogOptionsAddEditLead);
+            var result = await dialog.Result;
+
+        }
+
     }
 
-    void CommittedItemChanges(Division item)
+    async void DeleteItem()
     {
-        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = SelectedDivision.Id;
+
+        // create request object
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DD");
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Divisions = await SyncDivisionTable();
+            NotificationSnackbarService.ShowColorAlerts("Division Deleted", Severity.Success, SnackbarService);
+            StateHasChanged();
+
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Fail To Delete", Severity.Error, SnackbarService);
+        }
     }
+
 
 
     async void CreateNewDivision()
     {
+        NewDivision = new Division();
+        var parameters = new DialogParameters();
+        parameters.Add("IsDivision", true);
+        parameters.Add("Segments", Segments);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewDivision", NewDivision);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Division", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
 
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AD");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(NewDivision), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Divisions = await SyncDivisionTable();
+                NotificationSnackbarService.ShowColorAlerts("Division Added", Severity.Success, SnackbarService);
+                StateHasChanged();
+
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Add", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Division Not Added", Severity.Info, SnackbarService);
+        }
     }
+
+    /// <summary>
+    /// SyncOrganizationTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<ProjectAccount>> SyncOrganizationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return ProjectAccounts;
+        }
+    }
+
+    /// <summary>
+    /// SyncDivisionTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<Division>> SyncDivisionTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<Division>>("api/Template/GD");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Divisions;
+        }
+    }
+
+    /// <summary>
+    /// SyncSegmentTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<Segment>> SyncSegmentTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<Segment>>("api/Template/GS");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Segments;
+        }
+    }
+
+    #endregion Events
 }

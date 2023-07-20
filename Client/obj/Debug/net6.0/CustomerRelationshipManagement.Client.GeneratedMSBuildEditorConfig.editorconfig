@@ -48,6 +48,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmF2VkNcQ29udGFjdHNWQy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/ng937c8/Documents/AXISCADES/ProjectX/Client/Pages/NavVC/EngagementModelVC.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmF2VkNcRW5nYWdlbWVudE1vZGVsVkMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ng937c8/Documents/AXISCADES/ProjectX/Client/Pages/NavVC/LeadVC.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTmF2VkNcTGVhZFZDLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -98,6 +102,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/ng937c8/Documents/AXISCADES/ProjectX/Client/Pages/UserConfig/AccountConfig/SegmentVC.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckNvbmZpZ1xBY2NvdW50Q29uZmlnXFNlZ21lbnRWQy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ng937c8/Documents/AXISCADES/ProjectX/Client/Pages/UserConfig/Dialogs/DialogVC.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlckNvbmZpZ1xEaWFsb2dzXERpYWxvZ1ZDLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ng937c8/Documents/AXISCADES/ProjectX/Client/Pages/UserConfig/LoginVC.razor]
