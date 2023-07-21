@@ -905,16 +905,8 @@
       "url": "_framework\/System.Private.CoreLib.dll"
     },
     {
-      "hash": "sha256-Iww31ANFa3KZuR4RkhiSYt3FJ7PKpMdeFNq3l3Td1h8=",
-      "url": "_framework\/dotnet.6.0.18.fsgwq42hzu.js"
-    },
-    {
       "hash": "sha256-eZ48TqSDBkRFut2vm6DOJQJPQjvG+LB8ucOA4NLkqg0=",
       "url": "_framework\/dotnet.timezones.blat"
-    },
-    {
-      "hash": "sha256-a72LObjDo13A83kXjiYr4L\/Ge6OltrKCx5e3b4PWANk=",
-      "url": "_framework\/dotnet.wasm"
     },
     {
       "hash": "sha256-Zuq0dWAsBm6\/2lSOsz7+H9PvFaRn61KIXHMMwXDfvyE=",
@@ -933,6 +925,7 @@
       "url": "_framework\/icudt_no_CJK.dat"
     },
     {
+<<<<<<< HEAD
       "hash": "sha256-fRHGb2yaJmF7t2on19OFy2aLnO2le\/2N3Dv8dNj0Zls=",
       "url": "_framework\/CustomerRelationshipManagement.Shared.dll"
     },
@@ -946,6 +939,29 @@
     },
     {
       "hash": "sha256-7H10o1dUO8T\/B\/SaG7BPV47o8OY3wQl1+iNZfdnGJ3U=",
+=======
+      "hash": "sha256-uTSTP194TBPPxlQbZKVCinNHw5nb5ir+l8JVvkjK+Ec=",
+      "url": "_framework\/CustomerRelationshipManagement.Shared.dll"
+    },
+    {
+      "hash": "sha256-fpvOxTdm3UP3vKg3yy0giXnPIGqWcN6FNd4JvEu8fHU=",
+      "url": "_framework\/CustomerRelationshipManagement.Shared.pdb"
+    },
+    {
+      "hash": "sha256-6blc48LUUTv6RkTrcangeHDfXIaLlsUci2tOWlE449c=",
+      "url": "_framework\/dotnet.wasm"
+    },
+    {
+      "hash": "sha256-tiNL057vwa1GAtB2bizyW34jOFF55TgNWEceoFRewCI=",
+      "url": "_framework\/dotnet..sn4pjudhn6.js"
+    },
+    {
+      "hash": "sha256-USPErZCAenLJiPaDNK4+5e2Ww6vKSI2R9w7D2DmKKfw=",
+      "url": "_framework\/CustomerRelationshipManagement.Client.dll"
+    },
+    {
+      "hash": "sha256-9tbVW3zHviICPmGs\/F1iwUKQsdQLeJwNK5zW971hzEE=",
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
       "url": "_framework\/CustomerRelationshipManagement.Client.pdb"
     },
     {
@@ -953,7 +969,11 @@
       "url": "_framework\/blazor.webassembly.js"
     },
     {
+<<<<<<< HEAD
       "hash": "sha256-yXQe1IwrHTmGEdRttOLWocZTOjEteLB59iyOLDDEHSE=",
+=======
+      "hash": "sha256-pttLWgIykdwLc83loOcyR1M8facHKRt6BmpyODbHRKo=",
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -969,5 +989,9 @@
       "url": "_content\/MudBlazor.ThemeManager\/MudBlazorThemeManager.css"
     }
   ],
+<<<<<<< HEAD
   "version": "QIomUjRn"
+=======
+  "version": "p32K5y+o"
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
 };

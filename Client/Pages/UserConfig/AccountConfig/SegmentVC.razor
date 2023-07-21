@@ -122,7 +122,10 @@
         parameters.Add("IsSegment", true);
         parameters.Add("IsInfo", true);
         parameters.Add("NewSegment", SelectedSegment);
+<<<<<<< HEAD
         parameters.Add("ProjectAccounts", ProjectAccounts);
+=======
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
         var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 

@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿using CustomerRelationshipManagement.Client.Pages.UserConfig.AccountConfig;
 using CustomerRelationshipManagement.Data;
+=======
+﻿using CustomerRelationshipManagement.Data;
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
 using CustomerRelationshipManagement.Server.Repo.Interfaces;
 using CustomerRelationshipManagement.Shared.Models.AccountConfig;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +49,11 @@ namespace CustomerRelationshipManagement.Server.Repo.RepoImplementation
         {
             await _context.Segments.AddAsync(segment);
 
+<<<<<<< HEAD
             var projectAccount = await _context.ProjectAccounts.FirstOrDefaultAsync(pa => pa.Id == segment.ProjectAccountId);
+=======
+            var projectAccount = await _context.ProjectAccounts.FirstOrDefaultAsync(pa=>pa.Id == segment.ProjectAccountId);
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
             _ = _context.ProjectAccounts.Attach(projectAccount);
 
             var result = await _context.SaveChangesAsync();

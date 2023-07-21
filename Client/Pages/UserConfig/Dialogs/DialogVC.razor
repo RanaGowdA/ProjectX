@@ -19,11 +19,20 @@
 
             <MudGrid>
                 <MudItem xs="12">
+<<<<<<< HEAD
                     <MudSelect T="int" Value="NewSegment.ProjectAccountId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (ProjectAccount item in ProjectAccounts)
                         {
                             <MudSelectItem Value="@item.Id">@item.Organization</MudSelectItem>
+=======
+                    <MudSelect T="ProjectAccount" Value="NewSegment.ProjectAccount" Text="@_selectedProjectAccount"
+                               ValueChanged="@((ProjectAccount newValue) => OnProjectAccountSelectionChanged(newValue))"
+                               Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (ProjectAccount item in ProjectAccounts)
+                        {
+                            <MudSelectItem Value="@item">@item.Organization</MudSelectItem>
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
                         }
                     </MudSelect>
                 </MudItem>
@@ -39,6 +48,7 @@
         {
             <MudGrid>
                 <MudItem xs="12">
+<<<<<<< HEAD
                     <MudSelect T="int" @bind-Value="NewDivision.SegmentId" Label="Segment" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (Segment item in Segments)
@@ -53,6 +63,17 @@
                                   Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Organization" Variant="Variant.Text" Disabled />
 
                 }
+=======
+                    <MudSelect T="Segment" @bind-Value="NewDivision.Segment" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (Segment item in Segments)
+                        {
+                            <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudTextField T="string" @bind-Value="NewDivision.Segment.ProjectAccount.Organization" Counter="@CounterLimit" MaxLength="@CounterLimit"
+                              Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Organization" Variant="Variant.Text" />
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
                 <MudItem xs="12">
                     <MudTextField T="string" @bind-Value="NewDivision.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
                                   Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Division Name" Variant="Variant.Text" />
@@ -64,10 +85,17 @@
         {
             <MudGrid>
                 <MudItem xs="12">
+<<<<<<< HEAD
                     <MudSelect T="int" @bind-Value="NewLocation.SegmentId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
                         @foreach (Segment item in Segments)
                         {
                             <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+=======
+                    <MudSelect T="Segment" @bind-Value="NewLocation.Segment" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (Segment item in Segments)
+                        {
+                            <MudSelectItem Value="@item">@item.Name</MudSelectItem>
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
                         }
                     </MudSelect>
                 </MudItem>
@@ -94,10 +122,17 @@
         {
             <MudGrid>
                 <MudItem xs="12">
+<<<<<<< HEAD
                     <MudSelect T="int" @bind-Value="NewFunction.ProjectAccountId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
                         @foreach (ProjectAccount item in ProjectAccounts)
                         {
                             <MudSelectItem Value="@item.Id">@item.Organization</MudSelectItem>
+=======
+                    <MudSelect T="ProjectAccount" @bind-Value="NewFunction.ProjectAccount" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (ProjectAccount item in ProjectAccounts)
+                        {
+                            <MudSelectItem Value="@item">@item.Organization</MudSelectItem>
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
                         }
                     </MudSelect>
                 </MudItem>
@@ -146,19 +181,28 @@
 
     [Parameter]
     public bool IsDivision { get; set; }
+<<<<<<< HEAD
     [Parameter]
+=======
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
     public Division NewDivision { get; set; }
 
 
     [Parameter]
     public bool IsLocation { get; set; }
+<<<<<<< HEAD
     [Parameter]
+=======
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
     public Location NewLocation { get; set; }
 
 
     [Parameter]
     public bool IsFunction { get; set; }
+<<<<<<< HEAD
     [Parameter]
+=======
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
     public Function NewFunction { get; set; }
 
 
@@ -181,12 +225,15 @@
             _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
         }
 
+<<<<<<< HEAD
 
         if (IsDivision && !IsInfo)
         {
             NewDivision.Segment = Segments != null ? Segments.FirstOrDefault() : new Segment();
         }
 
+=======
+>>>>>>> 538bdcf91ef93d84cdf2eda610df4287ea3e72bd
         if (IsSegment && IsInfo)
         {
             _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
