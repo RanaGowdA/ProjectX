@@ -1,5 +1,227 @@
-﻿<h3>FunctionVC</h3>
+﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
 
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.AccountConfig
+@using System.Text.Json;
+@using System.Text;
+
+<MudGrid Class="pa-5">
+    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+        <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="AccountFunction" Items="@Functions" EditMode="DataGridEditMode.Form"
+                     Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
+
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Functions</MudText>
+                <MudSpacer />
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewSegment" />
+            </ToolBarContent>
+
+            <Columns>
+                <SelectColumn T="AccountFunction" />
+                <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
+                <PropertyColumn Property="x => x.ProjectAccount.Organization" Title="Organization" />
+                <PropertyColumn Property="x => x.Name" Title="Name" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="AccountFunction" RowsPerPageString="10" />
+            </PagerContent>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
 @code {
+    private IEnumerable<AccountFunction> Functions = new List<AccountFunction>();
+    private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
+    private bool _isCellEditMode;
+    private List<string> _events = new();
+    private bool _editTriggerRowClick;
+    private AccountFunction SelectedFunction { get; set; }
+
+    private AccountFunction NewFunction = new AccountFunction();
+    protected override async Task OnInitializedAsync()
+    {
+        Functions = await SyncFunctionTable();
+        ProjectAccounts = await SyncOrganizationTable();
+    }
+
+    #region Events
+
+    void SelectedItemsChanged(HashSet<AccountFunction> items)
+    {
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            SelectedFunction = selectedItem;
+        }
+    }
+    async void StartedEditingItem()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsSegment", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewSegment", SelectedFunction);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EF");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(SelectedFunction), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationSnackbarService.ShowColorAlerts("Segment Saved!", Severity.Success, SnackbarService);
+                ProjectAccounts = await SyncOrganizationTable();
+                StateHasChanged();
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Save!", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Segment Not Saved!", Severity.Info, SnackbarService);
+        }
+    }
+
+    async void InfoItem()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("IsSegment", true);
+        parameters.Add("IsInfo", true);
+        parameters.Add("NewSegment", SelectedFunction);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+    }
+
+    async void DeleteItem()
+    {
+
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = SelectedFunction.Id;
+
+        // create request object
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DF");
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            ProjectAccounts = await SyncOrganizationTable();
+            NotificationSnackbarService.ShowColorAlerts("Segment Deleted", Severity.Success, SnackbarService);
+            StateHasChanged();
+
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Fail To Delete", Severity.Error, SnackbarService);
+        }
+    }
+
+
+
+    async void CreateNewSegment()
+    {
+        NewFunction = new AccountFunction();
+        var parameters = new DialogParameters();
+        parameters.Add("IsSegment", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewSegment", NewFunction);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Segment", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AF");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(NewFunction), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ProjectAccounts = await SyncOrganizationTable();
+                NotificationSnackbarService.ShowColorAlerts("Account Organization Added", Severity.Success, SnackbarService);
+                StateHasChanged();
+
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Add", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Account Organization Not Added", Severity.Info, SnackbarService);
+        }
+    }
+
+    /// <summary>
+    /// SyncOrganizationTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<ProjectAccount>> SyncOrganizationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return ProjectAccounts;
+        }
+    }
+
+
+    /// <summary>
+    /// SyncSegmentTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<AccountFunction>> SyncFunctionTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<AccountFunction>>("api/Template/GF"); 
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Functions;
+        }
+    }
+
+    #endregion Events
 
 }

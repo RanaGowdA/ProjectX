@@ -145,6 +145,97 @@ namespace CustomerRelationshipManagement.Server.Controllers.VC_Admin_Controllers
         }
 
 
+        // POST: Template/AF
+        [HttpPost("AF")]
+        public async Task<bool> AddFunction(AccountFunction function)
+        {
+            return await _adminContext.AddFunction(function);
+        }
+
+        // POST: Template/EF
+        [HttpPost("EF")]
+        public async Task<bool> EditFunction(AccountFunction function)
+        {
+            return await _adminContext.EditFunction(function);
+        }
+
+
+        // POST: Template/DF
+        [HttpPost("DF")]
+        public async Task<bool> DeleteFunction(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteFunction(dataIdDTO.Id);
+        }
+
+
+
+        // GET: Template/GF
+        [HttpGet("GF")]
+        public async Task<List<AccountFunction>> GetFunctions()
+        {
+            return await _adminContext.GetFunctions();
+        }
+
+        // POST: Template/AC
+        [HttpPost("AC")]
+        public async Task<bool> AddCompetency(Competency competency)
+        {
+            return await _adminContext.AddCompetency(competency);
+        }
+
+        // POST: Template/EC
+        [HttpPost("EC")]
+        public async Task<bool> EditCompetency(Competency competency)
+        {
+            return await _adminContext.EditCompetency(competency);
+        }
+
+
+        // POST: Template/DC
+        [HttpPost("DC")]
+        public async Task<bool> DeleteCompetency(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteCompetency(dataIdDTO.Id);
+        }
+
+
+        // GET: Template/GC
+        [HttpGet("GC")]
+        public async Task<List<Competency>> GetCompetencies()
+        {
+            return await _adminContext.GetCompetencies();
+        }
+
+
+        // POST: Template/AC
+        [HttpPost("AE")]
+        public async Task<bool> AddEngagement(Engagement engagement)
+        {
+            return await _adminContext.AddEngagement(engagement);
+        }
+
+        // POST: Template/EC
+        [HttpPost("EE")]
+        public async Task<bool> EditEngagement(Engagement engagement)
+        {
+            return await _adminContext.EditEngagement(engagement);
+        }
+
+
+        // POST: Template/DE
+        [HttpPost("DE")]
+        public async Task<bool> DeleteEngagement(DataIdDTO dataIdDTO)
+        {
+            return await _adminContext.DeleteEngagement(dataIdDTO.Id);
+        }
+
+
+        // GET: Template/GE
+        [HttpGet("GE")]
+        public async Task<List<Engagement>> GetEngements()
+        {
+            return await _adminContext.GetEngagements();
+        }
 
 
 

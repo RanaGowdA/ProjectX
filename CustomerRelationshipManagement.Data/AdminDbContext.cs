@@ -25,7 +25,7 @@ namespace CustomerRelationshipManagement.Data
         public DbSet<Division> Divisions { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Engagement> EngagementModels { get; set; }
-        public DbSet<Function> Functions { get; set; }
+        public DbSet<AccountFunction> Functions { get; set; }
         public DbSet<Competency> Competencies { get; set; }
         public DbSet<Product> Products { get; set; }
 

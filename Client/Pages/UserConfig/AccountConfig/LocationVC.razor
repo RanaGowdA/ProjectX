@@ -1,11 +1,14 @@
-﻿@using CustomerRelationshipManagement.Shared.Models.AccountConfig;
- 
+﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.AccountConfig;
+@using System.Text.Json;
+@using System.Text;
+
 
 <MudGrid Class="pa-5">
     <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Location" Items="@Locations" EditMode="DataGridEditMode.Form"
-                     StartedEditingItem="@StartedEditingItem" CanceledEditingItem="@CanceledEditingItem" CommittedItemChanges="@CommittedItemChanges"
-                     Bordered="true" Dense="true" EditTrigger="DataGridEditTrigger.Manual">
+                     Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
             <ToolBarContent>
                 <MudText Typo="Typo.h5" Color="Color.Primary">Locations</MudText>
@@ -14,6 +17,7 @@
             </ToolBarContent>
 
             <Columns>
+                <SelectColumn T="Location" />
                 <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
                 <PropertyColumn Property="x => x.Segment.Name" Title="Segment" />
                 <PropertyColumn Property="x => x.City" Title="City" />
@@ -21,7 +25,9 @@
                 <PropertyColumn Property="x => x.PostalCode" Title="PostalCode" />
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
-                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@context.Actions.StartEditingItemAsync" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -32,35 +38,220 @@
     </MudItem>
 </MudGrid>
 @code {
+    private IEnumerable<Segment> Segments = new List<Segment>();
     private IEnumerable<Location> Locations = new List<Location>();
+    private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
     private bool _isCellEditMode;
     private List<string> _events = new();
     private bool _editTriggerRowClick;
 
+    private Location SelectedLocation { get; set; }
+
+    private Location NewLocation = new Location();
+
+
     protected override async Task OnInitializedAsync()
     {
-        Locations = await httpClient.GetFromJsonAsync<List<Location>>("api/Template/GL");
+        Locations = await SyncLocationTable();
+        Segments = await SyncSegmentTable();
+        ProjectAccounts = await SyncOrganizationTable();
     }
 
-    // events
-    void StartedEditingItem(Location item)
+    #region Events
+
+    void SelectedItemsChanged(HashSet<Location> items)
     {
-        _events.Insert(0, $"Event = StartedEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            SelectedLocation = selectedItem;
+        }
+    }
+    async void StartedEditingItem()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsLocation", true);
+        parameters.Add("Segments", Segments);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewLocation", SelectedLocation);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Location", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EL");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(SelectedLocation), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationSnackbarService.ShowColorAlerts("Location Saved!", Severity.Success, SnackbarService);
+                ProjectAccounts = await SyncOrganizationTable();
+                StateHasChanged();
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Save!", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Location Not Saved!", Severity.Info, SnackbarService);
+        }
     }
 
-    void CanceledEditingItem(Location item)
+    async void InfoItem()
     {
-        _events.Insert(0, $"Event = CanceledEditingItem, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+        if (SelectedLocation != null)
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("IsLocation", true);
+            parameters.Add("IsInfo", true);
+            parameters.Add("Segments", Segments);
+            parameters.Add("ProjectAccounts", ProjectAccounts);
+            parameters.Add("NewLocation", SelectedLocation);
+            var dialog = await Dialog.ShowAsync<DialogVC>("Location Info", parameters, DialogSettings.DialogOptionsAddEditLead);
+            var result = await dialog.Result;
+
+        }
+
     }
 
-    void CommittedItemChanges(Location item)
+    async void DeleteItem()
     {
-        _events.Insert(0, $"Event = CommittedItemChanges, Data = {System.Text.Json.JsonSerializer.Serialize(item)}");
+
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = SelectedLocation.Id;
+
+        // create request object
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DL");
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Locations = await SyncLocationTable();
+            NotificationSnackbarService.ShowColorAlerts("Location Deleted", Severity.Success, SnackbarService);
+            StateHasChanged();
+
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Fail To Delete", Severity.Error, SnackbarService);
+        }
     }
+
 
 
     async void CreateNewLocation()
     {
+        NewLocation = new Location();
+        var parameters = new DialogParameters();
+        parameters.Add("IsLocation", true);
+        parameters.Add("Segments", Segments);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewLocation", NewLocation);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Location", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
 
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AL");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(NewLocation), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                Locations = await SyncLocationTable();
+                NotificationSnackbarService.ShowColorAlerts("Location Added", Severity.Success, SnackbarService);
+                StateHasChanged();
+
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Add", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Location Not Added", Severity.Info, SnackbarService);
+        }
     }
+
+    /// <summary>
+    /// SyncOrganizationTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<ProjectAccount>> SyncOrganizationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return ProjectAccounts;
+        }
+    }
+
+    /// <summary>
+    /// SyncDivisionTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<Location>> SyncLocationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<Location>>("api/Template/GL");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Locations;
+        }
+    }
+
+    /// <summary>
+    /// SyncSegmentTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<Segment>> SyncSegmentTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<Segment>>("api/Template/GS");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Segments;
+        }
+    }
+
+    #endregion Events
 }

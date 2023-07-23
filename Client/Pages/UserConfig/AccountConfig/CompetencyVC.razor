@@ -1,5 +1,228 @@
-﻿<h3>CompetencyVC</h3>
+﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
+
+@using CustomerRelationshipManagement.Shared.Dto;
+@using CustomerRelationshipManagement.Shared.Models.AccountConfig
+@using System.Text.Json;
+@using System.Text;
+
+<MudGrid Class="pa-5">
+    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+        <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Competency" Items="@Competencies" EditMode="DataGridEditMode.Form"
+                     Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
+
+            <ToolBarContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Competencies</MudText>
+                <MudSpacer />
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewCompetency" />
+            </ToolBarContent>
+
+            <Columns>
+                <SelectColumn T="Competency" />
+                <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
+                <PropertyColumn Property="x => x.ProjectAccount.Organization" Title="Organization" />
+                <PropertyColumn Property="x => x.Name" Title="Name" />
+                <TemplateColumn CellClass="d-flex justify-end">
+                    <CellTemplate>
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="StartedEditingItem" />
+                        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="DeleteItem" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="Competency" RowsPerPageString="10" />
+            </PagerContent>
+        </MudDataGrid>
+    </MudItem>
+</MudGrid>
 
 @code {
+    private IEnumerable<Competency> Competencies = new List<Competency>();
+    private IEnumerable<ProjectAccount> ProjectAccounts = new List<ProjectAccount>();
+    private bool _isCellEditMode;
+    private List<string> _events = new();
+    private bool _editTriggerRowClick;
+    private Competency SelectedCompetency { get; set; }
+
+    private Competency NewCompetency = new Competency();
+    protected override async Task OnInitializedAsync()
+    {
+        Competencies = await SyncCompetencyTable();
+        ProjectAccounts = await SyncOrganizationTable();
+    }
+
+    #region Events
+
+    void SelectedItemsChanged(HashSet<Competency> items)
+    {
+        var selectedItem = items.FirstOrDefault();
+        if (selectedItem != null)
+        {
+            SelectedCompetency = selectedItem;
+        }
+    }
+    async void StartedEditingItem()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("IsCompatency", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewCompatency", SelectedCompetency);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Competency", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EC");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(SelectedCompetency), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationSnackbarService.ShowColorAlerts("Competency Saved!", Severity.Success, SnackbarService);
+                ProjectAccounts = await SyncOrganizationTable();
+                StateHasChanged();
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Save!", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Competency Not Saved!", Severity.Info, SnackbarService);
+        }
+    }
+
+    async void InfoItem()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("IsCompatency", true);
+        parameters.Add("IsInfo", true);
+        parameters.Add("NewCompatency", SelectedCompetency);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Competency Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+    }
+
+    async void DeleteItem()
+    {
+
+        DataIdDTO dataIdDTO = new();
+        dataIdDTO.Id = SelectedCompetency.Id;
+
+        // create request object
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DC");
+
+        // set request body
+        request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
+
+        //// add authorization header
+        //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+        // send request
+        var response = await httpClient.SendAsync(request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            ProjectAccounts = await SyncOrganizationTable();
+            NotificationSnackbarService.ShowColorAlerts("Competency Deleted", Severity.Success, SnackbarService);
+            StateHasChanged();
+
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Fail To Delete", Severity.Error, SnackbarService);
+        }
+    }
+
+
+
+    async void CreateNewCompetency()
+    {
+        NewCompetency = new Competency();
+        var parameters = new DialogParameters();
+        parameters.Add("IsCompatency", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewCompatency", NewCompetency);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Segment", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var result = await dialog.Result;
+
+        if (!result.Canceled)
+        {
+            // create request object
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AC");
+
+            // set request body
+            request.Content = new StringContent(JsonSerializer.Serialize(NewCompetency), Encoding.UTF8, "application/json");
+
+            //// add authorization header
+            //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "my-token");
+
+            // send request
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ProjectAccounts = await SyncOrganizationTable();
+                NotificationSnackbarService.ShowColorAlerts("Competency Added", Severity.Success, SnackbarService);
+                StateHasChanged();
+
+            }
+            else
+            {
+                NotificationSnackbarService.ShowColorAlerts("Fail To Add", Severity.Error, SnackbarService);
+            }
+        }
+        else
+        {
+            NotificationSnackbarService.ShowColorAlerts("Competency Not Added", Severity.Info, SnackbarService);
+        }
+    }
+
+    /// <summary>
+    /// SyncOrganizationTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<ProjectAccount>> SyncOrganizationTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<ProjectAccount>>("api/Template/GPA");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return ProjectAccounts;
+        }
+    }
+
+
+    /// <summary>
+    /// SyncCompetencyTable Once User Add/Edit/Delete
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IEnumerable<Competency>> SyncCompetencyTable()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<Competency>>("api/Template/GC");
+        if (result != null)
+        {
+            return result;
+        }
+        else
+        {
+            return Competencies;
+        }
+    }
+
+    #endregion Events
 
 }
