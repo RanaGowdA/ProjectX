@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
 services.AddControllersWithViews();
-services.AddRazorPages(); 
+services.AddRazorPages();
 services.AddMemoryCache();
 services.AddCors();
 
@@ -33,7 +33,7 @@ services.AddDbContextPool<AdminDbContext>(options =>
 
 services.AddScoped<AdminDbContext>();
 
-services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false)
+services.AddIdentity<AppUser, AppRole>(options => options.User.RequireUniqueEmail = false) 
                 .AddEntityFrameworkStores<AdminDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -52,8 +52,8 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ClockSkew = TimeSpan.Zero,
-        ValidateActor = true 
-    }; 
+        ValidateActor = true
+    };
 });
 
 // Cookie Auth
@@ -129,7 +129,7 @@ app.UseCors(policy => policy
                 .AllowAnyHeader());
 
 app.MapRazorPages();
- 
+
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();

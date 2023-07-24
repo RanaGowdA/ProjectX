@@ -5,8 +5,8 @@
 @using System.Text.Json;
 @using System.Text;
 
-<MudGrid Class="pa-5">
-    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+<MudGrid Class="pa-2">
+    <MudItem Class="mt-1" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="AccountFunction" Items="@Functions" EditMode="DataGridEditMode.Form"
                      Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
@@ -64,10 +64,10 @@
     {
 
         var parameters = new DialogParameters();
-        parameters.Add("IsSegment", true);
+        parameters.Add("IsFunction", true);
         parameters.Add("ProjectAccounts", ProjectAccounts);
-        parameters.Add("NewSegment", SelectedFunction);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        parameters.Add("NewFunction", SelectedFunction);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Function", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -86,7 +86,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                NotificationSnackbarService.ShowColorAlerts("Segment Saved!", Severity.Success, SnackbarService);
+                NotificationSnackbarService.ShowColorAlerts("Function Saved!", Severity.Success, SnackbarService);
                 ProjectAccounts = await SyncOrganizationTable();
                 StateHasChanged();
             }
@@ -97,16 +97,17 @@
         }
         else
         {
-            NotificationSnackbarService.ShowColorAlerts("Segment Not Saved!", Severity.Info, SnackbarService);
+            NotificationSnackbarService.ShowColorAlerts("Function Not Saved!", Severity.Info, SnackbarService);
         }
     }
 
     async void InfoItem()
     {
         var parameters = new DialogParameters();
-        parameters.Add("IsSegment", true);
+        parameters.Add("IsFunction", true);
         parameters.Add("IsInfo", true);
-        parameters.Add("NewSegment", SelectedFunction);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewFunction", SelectedFunction);
         var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
@@ -133,7 +134,7 @@
         if (response.IsSuccessStatusCode)
         {
             ProjectAccounts = await SyncOrganizationTable();
-            NotificationSnackbarService.ShowColorAlerts("Segment Deleted", Severity.Success, SnackbarService);
+            NotificationSnackbarService.ShowColorAlerts("Function Deleted", Severity.Success, SnackbarService);
             StateHasChanged();
 
         }
@@ -149,10 +150,10 @@
     {
         NewFunction = new AccountFunction();
         var parameters = new DialogParameters();
-        parameters.Add("IsSegment", true);
+        parameters.Add("IsFunction", true);
         parameters.Add("ProjectAccounts", ProjectAccounts);
-        parameters.Add("NewSegment", NewFunction);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Add Segment", parameters, DialogSettings.DialogOptionsAddEditLead);
+        parameters.Add("NewFunction", NewFunction);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Function", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
         if (!result.Canceled)
@@ -171,8 +172,8 @@
 
             if (response.IsSuccessStatusCode)
             {
+                NotificationSnackbarService.ShowColorAlerts("Function Added", Severity.Success, SnackbarService);
                 ProjectAccounts = await SyncOrganizationTable();
-                NotificationSnackbarService.ShowColorAlerts("Account Organization Added", Severity.Success, SnackbarService);
                 StateHasChanged();
 
             }
@@ -183,7 +184,7 @@
         }
         else
         {
-            NotificationSnackbarService.ShowColorAlerts("Account Organization Not Added", Severity.Info, SnackbarService);
+            NotificationSnackbarService.ShowColorAlerts("Function Not Added", Severity.Info, SnackbarService);
         }
     }
 
@@ -211,7 +212,7 @@
     /// <returns></returns>
     public async Task<IEnumerable<AccountFunction>> SyncFunctionTable()
     {
-        var result = await httpClient.GetFromJsonAsync<List<AccountFunction>>("api/Template/GF"); 
+        var result = await httpClient.GetFromJsonAsync<List<AccountFunction>>("api/Template/GF");
         if (result != null)
         {
             return result;

@@ -28,5 +28,9 @@
     <ProjectReference Include="..\Shared\CustomerRelationshipManagement.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repo\Data\" />
+  </ItemGroup>
+
 
 </Project>

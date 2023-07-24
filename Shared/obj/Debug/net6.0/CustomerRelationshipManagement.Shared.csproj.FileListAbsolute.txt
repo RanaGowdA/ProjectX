@@ -22,15 +22,3 @@ C:\Users\ng937c8\Documents\work\2023\ProjectX\Shared\obj\Debug\net6.0\CustomerRe
 C:\Users\ng937c8\Documents\work\2023\ProjectX\Shared\obj\Debug\net6.0\refint\CustomerRelationshipManagement.Shared.dll
 C:\Users\ng937c8\Documents\work\2023\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.pdb
 C:\Users\ng937c8\Documents\work\2023\ProjectX\Shared\obj\Debug\net6.0\ref\CustomerRelationshipManagement.Shared.dll
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\bin\Debug\net6.0\CustomerRelationshipManagement.Shared.deps.json
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\bin\Debug\net6.0\CustomerRelationshipManagement.Shared.dll
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\bin\Debug\net6.0\CustomerRelationshipManagement.Shared.pdb
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.csproj.AssemblyReference.cache
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.AssemblyInfoInputs.cache
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.AssemblyInfo.cs
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.csproj.CoreCompileInputs.cache
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.dll
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\refint\CustomerRelationshipManagement.Shared.dll
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\CustomerRelationshipManagement.Shared.pdb
-C:\Users\ng937c8\Documents\AXISCADES\ProjectX\Shared\obj\Debug\net6.0\ref\CustomerRelationshipManagement.Shared.dll

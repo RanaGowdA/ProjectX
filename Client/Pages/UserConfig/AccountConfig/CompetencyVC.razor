@@ -1,12 +1,11 @@
 ﻿@using CustomerRelationshipManagement.Client.Pages.UserConfig.Dialogs;
-
 @using CustomerRelationshipManagement.Shared.Dto;
 @using CustomerRelationshipManagement.Shared.Models.AccountConfig
 @using System.Text.Json;
 @using System.Text;
 
-<MudGrid Class="pa-5">
-    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+<MudGrid Class="pa-2">
+    <MudItem Class="mt-1" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Competency" Items="@Competencies" EditMode="DataGridEditMode.Form"
                      Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
@@ -65,9 +64,9 @@
     {
 
         var parameters = new DialogParameters();
-        parameters.Add("IsCompatency", true);
+        parameters.Add("IsCompetency", true);
         parameters.Add("ProjectAccounts", ProjectAccounts);
-        parameters.Add("NewCompatency", SelectedCompetency);
+        parameters.Add("NewCompetency", SelectedCompetency);
         var dialog = await Dialog.ShowAsync<DialogVC>("Edit Competency", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
@@ -105,10 +104,11 @@
     async void InfoItem()
     {
         var parameters = new DialogParameters();
-        parameters.Add("IsCompatency", true);
+        parameters.Add("IsCompetency", true);
         parameters.Add("IsInfo", true);
-        parameters.Add("NewCompatency", SelectedCompetency);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Competency Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
+        parameters.Add("NewCompetency", SelectedCompetency);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Competency", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
     }
@@ -150,10 +150,10 @@
     {
         NewCompetency = new Competency();
         var parameters = new DialogParameters();
-        parameters.Add("IsCompatency", true);
+        parameters.Add("IsCompetency", true);
         parameters.Add("ProjectAccounts", ProjectAccounts);
-        parameters.Add("NewCompatency", NewCompetency);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Add Segment", parameters, DialogSettings.DialogOptionsAddEditLead);
+        parameters.Add("NewCompetency", NewCompetency);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Competency", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
         if (!result.Canceled)

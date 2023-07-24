@@ -1541,23 +1541,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rana.Gowd\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\ng937c8\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
+      "projectUniqueName": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
       "projectName": "CustomerRelationshipManagement.Data",
-      "projectPath": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
-      "packagesPath": "C:\\Users\\Rana.Gowd\\.nuget\\packages\\",
-      "outputPath": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\CustomerRelationshipManagement.Data\\obj\\",
+      "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\CustomerRelationshipManagement.Data\\CustomerRelationshipManagement.Data.csproj",
+      "packagesPath": "C:\\Users\\ng937c8\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\CustomerRelationshipManagement.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Rana.Gowd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ng937c8\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1573,8 +1575,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj": {
-              "projectPath": "R:\\Web Development\\RanaAdigowni\\ProjectX\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj"
+            "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj": {
+              "projectPath": "C:\\Users\\ng937c8\\Documents\\AXISCADES\\ProjectX\\Shared\\CustomerRelationshipManagement.Shared.csproj"
             }
           }
         }

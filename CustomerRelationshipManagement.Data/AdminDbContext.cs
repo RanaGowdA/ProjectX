@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 namespace CustomerRelationshipManagement.Data
 {
     public class AdminDbContext : IdentityDbContext<AppUser, AppRole, int,
-      IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
-      IdentityRoleClaim<int>, IdentityUserToken<int>>
+                                                      IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
+                                                      IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DbSet<Lead> Leads { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
@@ -38,7 +38,7 @@ namespace CustomerRelationshipManagement.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=AdminDb.db");
+            optionsBuilder.UseSqlite("Data Source=AdminDb2.db");
             base.OnConfiguring(optionsBuilder);
         }
 

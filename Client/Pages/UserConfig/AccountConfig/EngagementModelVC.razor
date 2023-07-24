@@ -5,8 +5,8 @@
 @using System.Text.Json;
 @using System.Text;
 
-<MudGrid Class="pa-5">
-    <MudItem Class="mt-5" xs="12" Style="height: fit-content;">
+<MudGrid Class="pa-2">
+    <MudItem Class="mt-1" xs="12" Style="height: fit-content;">
         <MudDataGrid Class="pt-3 pa-4" FixedHeader="true" T="Engagement" Items="@Engagements" EditMode="DataGridEditMode.Form"
                      Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
@@ -62,18 +62,18 @@
         }
     }
     async void StartedEditingItem()
-    { 
+    {
         var parameters = new DialogParameters();
         parameters.Add("IsEngagementModel", true);
         parameters.Add("ProjectAccounts", ProjectAccounts);
         parameters.Add("NewEngagement", SelectedEngagement);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Edit Engagement Model", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
         if (!result.Canceled)
         {
             // create request object
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EF");
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/EE");
 
             // set request body
             request.Content = new StringContent(JsonSerializer.Serialize(SelectedEngagement), Encoding.UTF8, "application/json");
@@ -86,7 +86,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                NotificationSnackbarService.ShowColorAlerts("Segment Saved!", Severity.Success, SnackbarService);
+                NotificationSnackbarService.ShowColorAlerts("Engagement Model Saved!", Severity.Success, SnackbarService);
                 ProjectAccounts = await SyncOrganizationTable();
                 StateHasChanged();
             }
@@ -97,7 +97,7 @@
         }
         else
         {
-            NotificationSnackbarService.ShowColorAlerts("Segment Not Saved!", Severity.Info, SnackbarService);
+            NotificationSnackbarService.ShowColorAlerts("Engagement Model Not Saved!", Severity.Info, SnackbarService);
         }
     }
 
@@ -106,8 +106,9 @@
         var parameters = new DialogParameters();
         parameters.Add("IsEngagementModel", true);
         parameters.Add("IsInfo", true);
+        parameters.Add("ProjectAccounts", ProjectAccounts);
         parameters.Add("NewEngagement", SelectedEngagement);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Account Organization", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Engagement Model", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
     }
@@ -119,7 +120,7 @@
         dataIdDTO.Id = SelectedEngagement.Id;
 
         // create request object
-        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DF");
+        var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/DE");
 
         // set request body
         request.Content = new StringContent(JsonSerializer.Serialize(dataIdDTO), Encoding.UTF8, "application/json");
@@ -133,7 +134,7 @@
         if (response.IsSuccessStatusCode)
         {
             ProjectAccounts = await SyncOrganizationTable();
-            NotificationSnackbarService.ShowColorAlerts("Segment Deleted", Severity.Success, SnackbarService);
+            NotificationSnackbarService.ShowColorAlerts("Engagement Model Deleted", Severity.Success, SnackbarService);
             StateHasChanged();
 
         }
@@ -152,13 +153,13 @@
         parameters.Add("IsEngagementModel", true);
         parameters.Add("ProjectAccounts", ProjectAccounts);
         parameters.Add("NewEngagement", NewEngagement);
-        var dialog = await Dialog.ShowAsync<DialogVC>("Add Segment", parameters, DialogSettings.DialogOptionsAddEditLead);
+        var dialog = await Dialog.ShowAsync<DialogVC>("Add Engagement Model", parameters, DialogSettings.DialogOptionsAddEditLead);
         var result = await dialog.Result;
 
         if (!result.Canceled)
         {
             // create request object
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AF");
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Template/AE");
 
             // set request body
             request.Content = new StringContent(JsonSerializer.Serialize(NewEngagement), Encoding.UTF8, "application/json");
@@ -172,7 +173,7 @@
             if (response.IsSuccessStatusCode)
             {
                 ProjectAccounts = await SyncOrganizationTable();
-                NotificationSnackbarService.ShowColorAlerts("Account Organization Added", Severity.Success, SnackbarService);
+                NotificationSnackbarService.ShowColorAlerts("Engagement Model Added", Severity.Success, SnackbarService);
                 StateHasChanged();
 
             }
@@ -183,7 +184,7 @@
         }
         else
         {
-            NotificationSnackbarService.ShowColorAlerts("Account Organization Not Added", Severity.Info, SnackbarService);
+            NotificationSnackbarService.ShowColorAlerts("Engagement Model Not Added", Severity.Info, SnackbarService);
         }
     }
 

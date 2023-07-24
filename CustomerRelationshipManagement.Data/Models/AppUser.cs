@@ -6,11 +6,9 @@ namespace CustomerRelationshipManagement.Data.Models
     {
         public string Name { get; set; }
         public string UserCode { get; set; }
-        public ICollection<AppUserRole> UserRoles { get; set; } 
-        public bool IsAdmin { get; set; }
-        public int IsDeleted { get; set; }
+        public ICollection<AppUserRole> UserRoles { get; set; }
         public AppUser()
-        { 
+        {
         }
     }
 }
