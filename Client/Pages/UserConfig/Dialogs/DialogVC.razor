@@ -8,7 +8,7 @@
         {
             <MudGrid>
                 <MudItem xs="12">
-                    <MudTextField Required @bind-Value="NewProjectAccount.Organization" Label="Organization" HelperText="Enter Account Organization Ex.Google" Variant="Variant.Text"
+                    <MudTextField Required @bind-Value="@NewProjectAccount.Organization" Label="Account" HelperText="Enter Account Ex.Google" Variant="Variant.Text"
                                   Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.HomeRepairService" AdornmentColor="Color.Primary" Immediate="true" />
                 </MudItem>
             </MudGrid>
@@ -19,17 +19,18 @@
 
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect T="int" Value="NewSegment.ProjectAccountId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField T="string" @bind-Value="@NewSegment.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Segment Name Ex.Energy & Transportation"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Segment Name" Variant="Variant.Text" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect T="int" @bind-Value="@NewSegment.ProjectAccountId" Label="Account" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (ProjectAccount item in ProjectAccounts)
                         {
                             <MudSelectItem Value="@item.Id">@item.Organization</MudSelectItem>
                         }
                     </MudSelect>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewSegment.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Segment Name Ex.Energy & Transportation"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Segment Name" Variant="Variant.Text" />
                 </MudItem>
             </MudGrid>
         }
@@ -38,8 +39,14 @@
         @if (IsDivision)
         {
             <MudGrid>
+
                 <MudItem xs="12">
-                    <MudSelect T="int" @bind-Value="NewDivision.SegmentId" Label="Segment" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField T="string" @bind-Value="@NewDivision.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Division Name" Variant="Variant.Text" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudSelect T="int" @bind-Value="@NewDivision.SegmentId" Label="Segment" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (Segment item in Segments)
                         {
@@ -49,23 +56,32 @@
                 </MudItem>
                 @if (NewDivision.SegmentId > 0)
                 {
-                    var SeelctedSegmentAccount = Segments.FirstOrDefault(x => x.Id == NewLocation.SegmentId);
+                    var SeelctedSegmentAccount = Segments.FirstOrDefault(x => x.Id == NewDivision.SegmentId);
                     <MudTextField T="string" @bind-Value="@SeelctedSegmentAccount.ProjectAccount.Organization" Counter="@CounterLimit" MaxLength="@CounterLimit"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Organization" Variant="Variant.Text" />
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Account" Variant="Variant.Text" />
 
                 }
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewDivision.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Division Name Ex.Solar Turbine"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Division Name" Variant="Variant.Text" />
-                </MudItem>
             </MudGrid>
         }
 
         @if (IsLocation)
         {
             <MudGrid>
+
                 <MudItem xs="12">
-                    <MudSelect T="int" @bind-Value="NewLocation.SegmentId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField T="string" @bind-Value="@NewLocation.City" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Location Name Ex.Victoria"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Location Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="@NewLocation.State" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter State Name Ex.Texas"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="State Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField T="string" @bind-Value="@NewLocation.PostalCode" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter PostalCode Number Ex.BS106LF"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="PostalCode" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudSelect T="int" @bind-Value="NewLocation.SegmentId" Label="Segment" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (Segment item in Segments)
                         {
@@ -79,18 +95,6 @@
                     <MudTextField T="string" @bind-Value="@SeelctedSegmentAccount.ProjectAccount.Organization" Counter="@CounterLimit" MaxLength="@CounterLimit"
                                   Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Organization" Variant="Variant.Text" />
                 }
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewLocation.City" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Location Name Ex.Victoria"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Location Name" Variant="Variant.Text" />
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewLocation.State" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter State Name Ex.Texas"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="State Name" Variant="Variant.Text" />
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewLocation.PostalCode" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter PostalCode Number Ex.BS106LF"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="PostalCode" Variant="Variant.Text" />
-                </MudItem>
             </MudGrid>
 
         }
@@ -100,17 +104,17 @@
         {
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect T="int" @bind-Value="NewFunction.ProjectAccountId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField T="string" @bind-Value="@NewFunction.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Function Name Ex.Energy & Transportation"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Function Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudSelect T="int" @bind-Value="@NewFunction.ProjectAccountId" Label="Account" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (ProjectAccount item in ProjectAccounts)
                         {
                             <MudSelectItem Value="@item.Id">@item.Organization</MudSelectItem>
                         }
                     </MudSelect>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewFunction.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Function Name Ex.Energy & Transportation"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Function Name" Variant="Variant.Text" />
                 </MudItem>
             </MudGrid>
         }
@@ -119,17 +123,17 @@
         {
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect T="int" @bind-Value="NewCompetency.ProjectAccountId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
+                    <MudTextField T="string" @bind-Value="@NewCompetency.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Competency Name Ex.Analytics"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Competency Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudSelect T="int" @bind-Value="@NewCompetency.ProjectAccountId" Label="Account" AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="0">None</MudSelectItem>
                         @foreach (ProjectAccount item in ProjectAccounts)
                         {
                             <MudSelectItem Value="@item.Id">@item.Organization</MudSelectItem>
                         }
                     </MudSelect>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewCompetency.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Competency Name Ex.Analytics"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Competency Name" Variant="Variant.Text" />
                 </MudItem>
             </MudGrid>
         }
@@ -139,17 +143,17 @@
         {
             <MudGrid>
                 <MudItem xs="12">
-                    <MudSelect T="int" @bind-Value="NewEngagement.ProjectAccountId" Label="Organization" AnchorOrigin="Origin.BottomCenter">
-                        <MudSelectItem Value="0">None</MudSelectItem>
+                    <MudTextField T="string" @bind-Value="@NewEngagement.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Engagement Name Ex.SoW"
+                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Engagement Name" Variant="Variant.Text" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudSelect T="int" @bind-Value="@NewEngagement.ProjectAccountId" Label="Account" AnchorOrigin="Origin.BottomCenter">
+                        @*<MudSelectItem Value="0">None</MudSelectItem>*@
                         @foreach (ProjectAccount item in ProjectAccounts)
                         {
                             <MudSelectItem Value="@item.Id">@item.Organization</MudSelectItem>
                         }
                     </MudSelect>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudTextField T="string" @bind-Value="NewEngagement.Name" Counter="@CounterLimit" MaxLength="@CounterLimit" HelperText="Enter Engagement Name Ex.SoW"
-                                  Immediate="true" Validation="@(new Func<string, IEnumerable<string>>(MaxCharacters))" Label="Engagement Name" Variant="Variant.Text" />
                 </MudItem>
             </MudGrid>
         }
@@ -228,17 +232,17 @@
     protected override async Task OnInitializedAsync()
     {
         _selectedProjectAccount = "";
-        CounterLimit = 45;
-        if (IsSegment && !IsInfo)
-        {
-            NewSegment.ProjectAccount = ProjectAccounts != null ? ProjectAccounts.FirstOrDefault() : new ProjectAccount();
-            _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
-        }
+        CounterLimit = 35;
+        //if (IsSegment && !IsInfo)
+        //{
+        //    NewSegment.ProjectAccount = ProjectAccounts != null ? ProjectAccounts.FirstOrDefault() : new ProjectAccount();
+        //    _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
+        //}
 
-        if (IsSegment && IsInfo)
-        {
-            _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
-        }
+        //if (IsSegment && IsInfo)
+        //{
+        //    _selectedProjectAccount = NewSegment.ProjectAccount.Organization;
+        //}
     }
     /// <summary>
     /// OnProject Account Selection Changed

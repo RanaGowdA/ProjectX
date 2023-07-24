@@ -9,9 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CustomerRelationshipManagement.Data
 {
-    public class AdminDbContext : IdentityDbContext<AppUser, AppRole, int,
-                                                      IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
-                                                      IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class AdminDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public DbSet<Lead> Leads { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }

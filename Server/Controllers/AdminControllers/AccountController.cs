@@ -12,29 +12,70 @@ using WeCare.WebAPI.Utilities;
 namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<AppRole> _userRoleManager;
         private readonly IConfiguration _configuration;
         public AccountController(IConfiguration configuration, UserManager<AppUser> userManager,
-                             SignInManager<AppUser> signInManager)
+                             SignInManager<AppUser> signInManager, RoleManager<AppRole> userRoleManager)
         {
             _configuration = configuration;
             _signInManager = signInManager;
             _userManager = userManager;
+            _userRoleManager = userRoleManager;
         }
 
         /// <summary>
         /// Validates authorised user
         /// </summary>
-        /// <returns>string Success or Failure</returns>
-        [Authorize]
+        /// <returns>string Success or Failure</returns> 
         [HttpGet("validate")]
-        public ActionResult Validate()
+        public async Task<bool> Validate()
         {
-            return Ok("Logged in");
+
+            var AppRole1 = new AppRole
+            {
+                Name = RoleConstants.SuperAdminRole
+            };
+
+            var AppRole2 = new AppRole
+            {
+                Name = RoleConstants.AdminRole
+            };
+            var AppRole3 = new AppRole
+            {
+                Name = RoleConstants.WebAdminRole
+            };
+
+            ////Seed Roles
+            //await _userRoleManager.CreateAsync(AppRole1);
+            //await _userRoleManager.CreateAsync(AppRole2);
+            //await _userRoleManager.CreateAsync(AppRole3);
+
+            //Seed Default User
+            var defaultUser = new AppUser
+            {
+                UserName = "superadmin",
+                Email = "superadmin@gmail.com",
+                Name = "superadmin",
+                UserCode = "AXCIAN00001",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            var user = await _userManager.FindByEmailAsync(defaultUser.Email);
+            if (user == null)
+            {
+                await _userManager.CreateAsync(defaultUser, "Pa$$word");
+                await _userManager.AddToRoleAsync(defaultUser, RoleConstants.SuperAdminRole);
+                await _userManager.AddToRoleAsync(defaultUser, RoleConstants.AdminRole);
+                await _userManager.AddToRoleAsync(defaultUser, RoleConstants.WebAdminRole);
+            }
+            return true;
         }
 
 
@@ -50,8 +91,8 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
                 loginResult.Success = false;
                 loginResult.Message = "Username is invalid";
                 return loginResult;
-            } 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false); 
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
             if (!result.Succeeded)
             {
@@ -83,7 +124,7 @@ namespace CustomerRelationshipManagement.Server.Controllers.AdminControllers
 
 
 
-        
+
 
 
     }

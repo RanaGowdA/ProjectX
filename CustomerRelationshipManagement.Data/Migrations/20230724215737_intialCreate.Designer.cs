@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerRelationshipManagement.Data.Migrations
 {
     [DbContext(typeof(AdminDbContext))]
-    [Migration("20230724123951_IntialCreate")]
-    partial class IntialCreate
+    [Migration("20230724215737_intialCreate")]
+    partial class intialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,26 +119,6 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.HasIndex("Email", "UserName");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("CustomerRelationshipManagement.Data.Models.AppUserRole", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("AppUserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("CustomerRelationshipManagement.Shared.Lead", b =>
@@ -634,6 +614,27 @@ namespace CustomerRelationshipManagement.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<int>");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId")
@@ -655,21 +656,14 @@ namespace CustomerRelationshipManagement.Data.Migrations
 
             modelBuilder.Entity("CustomerRelationshipManagement.Data.Models.AppUserRole", b =>
                 {
-                    b.HasOne("CustomerRelationshipManagement.Data.Models.AppUser", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("AppUserId");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<int>");
 
-                    b.HasOne("CustomerRelationshipManagement.Data.Models.AppRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasOne("CustomerRelationshipManagement.Data.Models.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasIndex("AppUserId");
+
+                    b.HasDiscriminator().HasValue("AppUserRole");
                 });
 
             modelBuilder.Entity("CustomerRelationshipManagement.Shared.Lead", b =>
@@ -803,6 +797,21 @@ namespace CustomerRelationshipManagement.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Data.Models.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CustomerRelationshipManagement.Data.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("CustomerRelationshipManagement.Data.Models.AppUser", null)
@@ -810,6 +819,13 @@ namespace CustomerRelationshipManagement.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CustomerRelationshipManagement.Data.Models.AppUserRole", b =>
+                {
+                    b.HasOne("CustomerRelationshipManagement.Data.Models.AppUser", null)
+                        .WithMany("UserRoles")
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("CustomerRelationshipManagement.Data.Models.AppUser", b =>

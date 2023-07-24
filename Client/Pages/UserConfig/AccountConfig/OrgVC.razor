@@ -11,7 +11,7 @@
                      Bordered="true" Dense="true" SelectedItemsChanged="@SelectedItemsChanged">
 
             <ToolBarContent>
-                <MudText Typo="Typo.h5" Color="Color.Primary">Organizations</MudText>
+                <MudText Typo="Typo.h5" Color="Color.Primary">Accounts</MudText>
                 <MudSpacer />
                 <MudSpacer />
                 <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="CreateNewProject" />
@@ -20,7 +20,7 @@
             <Columns>
                 <SelectColumn T="ProjectAccount" />
                 <PropertyColumn Property="x => x.Id" Title="Id" IsEditable="false" />
-                <PropertyColumn Property="x => x.Organization" Title="Organization" />
+                <PropertyColumn Property="x => x.Organization" Title="Account Name" />
                 <TemplateColumn CellClass="d-flex justify-end">
                     <CellTemplate>
                         <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" OnClick="InfoItem" />
